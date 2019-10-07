@@ -20,7 +20,7 @@ public class Discipulado implements Serializable {
     @JoinColumn(name = "discipulador_id")
     private Membro discipulador;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "discipulado")
     private List<Celula> celulas = new ArrayList<>();
 
     public Discipulado() {

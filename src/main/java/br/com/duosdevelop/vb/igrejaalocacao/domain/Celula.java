@@ -26,16 +26,21 @@ public class Celula implements Serializable {
     @OneToMany(mappedBy = "celula")
     private List<Membro> membros = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "discipulado_id")
+    private Discipulado discipulado;
+
     public Celula() {
     }
 
-    public Celula(Integer id, String nome, Membro lider, DiasSemana dia, Date horario, Endereco endereco) {
+    public Celula(Integer id, String nome, Membro lider, DiasSemana dia, Date horario, Endereco endereco, Discipulado discipulado) {
         this.id = id;
         this.nome = nome;
         this.lider = lider;
         this.dia = dia;
         this.horario = horario;
         this.endereco = endereco;
+        this.discipulado = discipulado;
     }
 
     public Integer getId() {
@@ -84,6 +89,14 @@ public class Celula implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Discipulado getDiscipulado() {
+        return discipulado;
+    }
+
+    public void setDiscipulado(Discipulado discipulado) {
+        this.discipulado = discipulado;
     }
 
     public List<Membro> getMembros() {

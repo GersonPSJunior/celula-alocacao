@@ -44,11 +44,11 @@ public class IgrejaAlocacaoApplication implements CommandLineRunner {
 		Cidade cid2 = new Cidade(null, "Cabo Frio", es2);
 		Cidade cid3 = new Cidade(null, "Belo Horizonte", es3);
 
-		Membro mem1 = new Membro(null, "Maria", new Date(System.currentTimeMillis()), "16523721537");
+		Membro mem1 = new Membro(null, "Maria", new Date(System.currentTimeMillis()), "16523721537", null);
 		mem1.getTelefone().addAll(Arrays.asList("976678758"));
-		Membro mem2 = new Membro(null, "João", new Date(System.currentTimeMillis()), "6278647836");
+		Membro mem2 = new Membro(null, "João", new Date(System.currentTimeMillis()), "6278647836", null);
 		mem2.getTelefone().addAll(Arrays.asList("93846274", "648376646"));
-		Membro mem3 = new Membro(null, "Joaquim", new Date(System.currentTimeMillis()), "768468646");
+		Membro mem3 = new Membro(null, "Joaquim", new Date(System.currentTimeMillis()), "768468646", null);
 		mem3.getTelefone().addAll(Arrays.asList("93487287", "92346274"));
 
 		Endereco end1 = new Endereco(null, "Rua 1", "1", "Casa", "Vila 1", "63218763", cid1, mem3);
