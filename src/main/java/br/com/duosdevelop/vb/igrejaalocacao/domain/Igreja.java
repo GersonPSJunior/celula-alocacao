@@ -13,10 +13,16 @@ public class Igreja implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+
+    @OneToOne
+    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
     @OneToMany(mappedBy = "igreja")
     private List<Culto> cultos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "igreja")
+    private List<Rede> redes = new ArrayList<>();
 
     public Igreja() {
     }
@@ -57,6 +63,14 @@ public class Igreja implements Serializable {
 
     public void setCultos(List<Culto> cultos) {
         this.cultos = cultos;
+    }
+
+    public List<Rede> getRedes() {
+        return redes;
+    }
+
+    public void setRedes(List<Rede> redes) {
+        this.redes = redes;
     }
 
     @Override

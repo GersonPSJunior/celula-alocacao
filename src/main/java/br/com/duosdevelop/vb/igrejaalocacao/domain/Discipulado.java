@@ -1,9 +1,6 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +12,24 @@ public class Discipulado implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+    @ManyToOne
+    @JoinColumn(name = "rede_id")
+    private Rede rede;
+
+    @OneToOne
+    @JoinColumn(name = "discipulador_id")
     private Membro discipulador;
-    private Membro discipuladorTreinamento;
+
+    @ManyToOne
     private List<Celula> celulas = new ArrayList<>();
 
     public Discipulado() {
     }
 
-    public Discipulado(Integer id, String nome, Membro discipulador) {
+    public Discipulado(Integer id, String nome, Rede rede, Membro discipulador) {
         this.id = id;
         this.nome = nome;
+        this.rede = rede;
         this.discipulador = discipulador;
     }
 
@@ -50,14 +55,6 @@ public class Discipulado implements Serializable {
 
     public void setDiscipulador(Membro discipulador) {
         this.discipulador = discipulador;
-    }
-
-    public Membro getDiscipuladorTreinamento() {
-        return discipuladorTreinamento;
-    }
-
-    public void setDiscipuladorTreinamento(Membro discipuladorTreinamento) {
-        this.discipuladorTreinamento = discipuladorTreinamento;
     }
 
     public List<Celula> getCelulas() {

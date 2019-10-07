@@ -14,6 +14,9 @@ public class Membro implements Serializable {
     private String nome;
     private Date nascimento;
     private String cpf;
+    @ManyToOne
+    @JoinColumn(name = "celula_id")
+    private Celula celula;
 
     @ElementCollection
     @CollectionTable(name = "telefone")
@@ -25,11 +28,12 @@ public class Membro implements Serializable {
     public Membro() {
     }
 
-    public Membro(Integer id, String nome, Date nascimento, String cpf) {
+    public Membro(Integer id, String nome, Date nascimento, String cpf, Celula celula) {
         this.id = id;
         this.nome = nome;
         this.nascimento = nascimento;
         this.cpf = cpf;
+        this.celula = celula;
     }
 
     public Integer getId() {
@@ -70,6 +74,14 @@ public class Membro implements Serializable {
 
     public void setTelefone(Set<String> telefone) {
         this.telefone = telefone;
+    }
+
+    public Celula getCelula() {
+        return celula;
+    }
+
+    public void setCelula(Celula celula) {
+        this.celula = celula;
     }
 
     public List<Endereco> getEnderecos() {

@@ -2,12 +2,11 @@ package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,8 +19,12 @@ public class Celula implements Serializable {
     private Membro lider;
     private DiasSemana dia;
     private Date horario;
+    @OneToOne
+    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
-    private Membro liderTreinamento;
+
+    @OneToMany(mappedBy = "celula")
+    private List<Membro> membros = new ArrayList<>();
 
     public Celula() {
     }
@@ -83,12 +86,12 @@ public class Celula implements Serializable {
         this.endereco = endereco;
     }
 
-    public Membro getLiderTreinamento() {
-        return liderTreinamento;
+    public List<Membro> getMembros() {
+        return membros;
     }
 
-    public void setLiderTreinamento(Membro liderTreinamento) {
-        this.liderTreinamento = liderTreinamento;
+    public void setMembros(List<Membro> membros) {
+        this.membros = membros;
     }
 
     @Override
