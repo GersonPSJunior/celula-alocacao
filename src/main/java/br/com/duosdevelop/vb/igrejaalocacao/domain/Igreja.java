@@ -14,7 +14,7 @@ public class Igreja implements Serializable {
     private Integer id;
     private String nome;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 

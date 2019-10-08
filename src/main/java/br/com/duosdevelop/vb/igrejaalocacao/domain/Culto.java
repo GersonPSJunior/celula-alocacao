@@ -16,6 +16,7 @@ public class Culto implements Serializable {
     private String nome;
     private DiasSemana dia;
     private Date horario;
+
     @ManyToOne
     @JoinColumn(name = "igreja_id")
     private Igreja igreja;
@@ -23,11 +24,12 @@ public class Culto implements Serializable {
     public Culto() {
     }
 
-    public Culto(Integer id, String nome, DiasSemana dia, Date horario) {
+    public Culto(Integer id, String nome, DiasSemana dia, Date horario, Igreja igreja) {
         this.id = id;
         this.nome = nome;
         this.dia = dia;
         this.horario = horario;
+        this.igreja = igreja;
     }
 
     public Integer getId() {
@@ -60,6 +62,14 @@ public class Culto implements Serializable {
 
     public void setHorario(Date horario) {
         this.horario = horario;
+    }
+
+    public Igreja getIgreja() {
+        return igreja;
+    }
+
+    public void setIgreja(Igreja igreja) {
+        this.igreja = igreja;
     }
 
     @Override

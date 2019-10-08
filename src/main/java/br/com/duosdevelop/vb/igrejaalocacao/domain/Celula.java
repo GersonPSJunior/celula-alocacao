@@ -16,7 +16,7 @@ public class Celula implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    private Membro lider;
+    private String lider;
     private DiasSemana dia;
     private Date horario;
     @OneToOne
@@ -33,7 +33,7 @@ public class Celula implements Serializable {
     public Celula() {
     }
 
-    public Celula(Integer id, String nome, Membro lider, DiasSemana dia, Date horario, Endereco endereco, Discipulado discipulado) {
+    public Celula(Integer id, String nome, String lider, DiasSemana dia, Date horario, Endereco endereco, Discipulado discipulado) {
         this.id = id;
         this.nome = nome;
         this.lider = lider;
@@ -59,11 +59,11 @@ public class Celula implements Serializable {
         this.nome = nome;
     }
 
-    public Membro getLider() {
+    public String getLider() {
         return lider;
     }
 
-    public void setLider(Membro lider) {
+    public void setLider(String lider) {
         this.lider = lider;
     }
 

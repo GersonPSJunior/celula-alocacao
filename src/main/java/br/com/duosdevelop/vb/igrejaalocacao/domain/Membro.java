@@ -1,5 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -14,6 +16,8 @@ public class Membro implements Serializable {
     private String nome;
     private Date nascimento;
     private String cpf;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "celula_id")
     private Celula celula;
