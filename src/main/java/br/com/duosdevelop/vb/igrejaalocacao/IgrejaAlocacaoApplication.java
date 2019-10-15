@@ -116,10 +116,10 @@ public class IgrejaAlocacaoApplication implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(es1, es2, es3));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
-		membroRepository.saveAll(Arrays.asList(mem1, mem2, mem3));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4, end5));
 		igrejaRepository.saveAll(Arrays.asList(igreja));
 		cultoRepository.saveAll(Arrays.asList(culto1, culto2));
+		membroRepository.saveAll(Arrays.asList(mem1, mem2, mem3));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4, end5));
 		redeRepository.saveAll(Arrays.asList(rede1, rede2));
 		discipuladoRepository.saveAll(Arrays.asList(discipulado1, discipulado2, discipulado3));
 		celulaRepository.saveAll(Arrays.asList(celula1, celula2, celula3, celula4, celula5));
