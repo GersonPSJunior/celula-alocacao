@@ -1,5 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class Igreja implements Serializable {
     @OneToMany(mappedBy = "igreja")
     private List<Culto> cultos = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "igreja")
     private List<Rede> redes = new ArrayList<>();
 

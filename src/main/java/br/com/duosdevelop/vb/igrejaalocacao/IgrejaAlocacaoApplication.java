@@ -57,12 +57,12 @@ public class IgrejaAlocacaoApplication implements CommandLineRunner {
 		Membro mem3 = new Membro(null, "Joaquim", new Date(System.currentTimeMillis()), "768468646", null);
 		mem3.getTelefone().addAll(Arrays.asList("93487287", "92346274"));
 
-		Endereco end1 = new Endereco(null, "Rua 1", "1", "Casa", "Vila 1", "63218763", cid1, mem3);
-		Endereco end2 = new Endereco(null, "Rua 2", "2", "APT", "Vila 2", "34543544", cid2, mem2);
-		Endereco end3 = new Endereco(null, "Rua 3", "3", "Casa", "Vila 3", "45324234", cid1, mem3);
-		Endereco end4 = new Endereco(null, "Rua 4", "4", "APT", "Vila 4", "42342554", cid3, mem2);
-		Endereco end5 = new Endereco(null, "Rua 5", "5", "Casa", "Vila 5", "43565244", cid2, mem1);
-		Endereco end6 = new Endereco(null, "Rua 6", "6", "Predio", "Vila 6", "43565244", cid2, null);
+		Endereco end1 = new Endereco(null, "Rua 1", "1", "Casa", "Vila 1", "63218763", cid1);
+		Endereco end2 = new Endereco(null, "Rua 2", "2", "APT", "Vila 2", "34543544", cid2);
+		Endereco end3 = new Endereco(null, "Rua 3", "3", "Casa", "Vila 3", "45324234", cid1);
+		Endereco end4 = new Endereco(null, "Rua 4", "4", "APT", "Vila 4", "42342554", cid3);
+		Endereco end5 = new Endereco(null, "Rua 5", "5", "Casa", "Vila 5", "43565244", cid2);
+		Endereco end6 = new Endereco(null, "Rua 6", "6", "Predio", "Vila 6", "43565244", cid2);
 
 		Igreja igreja = new Igreja(null, "Batista", end6);
 
@@ -89,9 +89,16 @@ public class IgrejaAlocacaoApplication implements CommandLineRunner {
 		es2.getCidades().addAll(Arrays.asList(cid2));
 		es3.getCidades().addAll(Arrays.asList(cid3));
 
+		end1.setMembro(mem3);
+		end2.setMembro(mem2);
+		end3.setMembro(mem3);
+		end4.setMembro(mem2);
+		end5.setMembro(mem1);
+
 		mem1.getEnderecos().addAll(Arrays.asList(end5));
 		mem2.getEnderecos().addAll(Arrays.asList(end2, end4));
 		mem3.getEnderecos().addAll(Arrays.asList(end1, end3));
+
 
 		igreja.getCultos().addAll(Arrays.asList(culto1, culto2));
 		igreja.getRedes().addAll(Arrays.asList(rede1,rede2));

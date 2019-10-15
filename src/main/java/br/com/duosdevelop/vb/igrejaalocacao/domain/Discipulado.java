@@ -1,5 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class Discipulado implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
+
     @ManyToOne
     @JoinColumn(name = "rede_id")
     private Rede rede;
@@ -20,6 +23,7 @@ public class Discipulado implements Serializable {
     @JoinColumn(name = "discipulador_id")
     private Membro discipulador;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "discipulado")
     private List<Celula> celulas = new ArrayList<>();
 
@@ -63,6 +67,14 @@ public class Discipulado implements Serializable {
 
     public void setCelulas(List<Celula> celulas) {
         this.celulas = celulas;
+    }
+
+    public Rede getRede() {
+        return rede;
+    }
+
+    public void setRede(Rede rede) {
+        this.rede = rede;
     }
 
     @Override
