@@ -1,6 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,6 +27,7 @@ public class Celula implements Serializable {
     @OneToMany(mappedBy = "celula")
     private List<Membro> membros = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "discipulado_id")
     private Discipulado discipulado;

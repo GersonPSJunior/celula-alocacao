@@ -1,9 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.services;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
-import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

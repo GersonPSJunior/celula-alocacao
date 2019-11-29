@@ -23,7 +23,6 @@ public class Discipulado implements Serializable {
     @JoinColumn(name = "discipulador_id")
     private Membro discipulador;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "discipulado")
     private List<Celula> celulas = new ArrayList<>();
 
