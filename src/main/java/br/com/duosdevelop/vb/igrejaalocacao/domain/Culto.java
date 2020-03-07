@@ -1,6 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Culto implements Serializable {
     private Integer id;
     private String nome;
     private DiasSemana dia;
+    @JsonFormat(pattern = "HH:mm")
     private Date horario;
 
     @JsonIgnore

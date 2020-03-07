@@ -1,5 +1,6 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -13,7 +14,10 @@ public class Membro implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String nome;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date nascimento;
     private String cpf;
 
@@ -30,6 +34,12 @@ public class Membro implements Serializable {
     private List<Endereco> enderecos = new ArrayList<>();
 
     public Membro() {
+    }
+
+    public Membro(String nome, Date nascimento, String cpf) {
+        this.nome = nome;
+        this.nascimento = nascimento;
+        this.cpf = cpf;
     }
 
     public Membro(Integer id, String nome, Date nascimento, String cpf, Celula celula) {
