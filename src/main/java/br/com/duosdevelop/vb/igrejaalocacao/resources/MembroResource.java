@@ -38,7 +38,7 @@ public class MembroResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Membro> insert(@Valid @RequestBody NewMembroDTO newMembroDTO, HttpServletResponse response) throws ParseException {
+    public ResponseEntity<Membro> insert(@Valid @RequestBody NewMembroDTO newMembroDTO, HttpServletResponse response) throws Exception {
         Membro membro = service.fromDTO(newMembroDTO);
         Membro membroResult = service.insert(membro);
         publisher.publishEvent(new CreateResourceEvent(this, response, membroResult.getId()));

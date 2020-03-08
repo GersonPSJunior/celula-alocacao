@@ -1,10 +1,10 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class NewMembroDTO implements Serializable {
@@ -13,28 +13,34 @@ public class NewMembroDTO implements Serializable {
     public NewMembroDTO() {
     }
 
-    @NotEmpty(message = "Preenchimento obrigatório")
-    @Length(min = 5, max = 120, message = "tamanho deve ser entre 5 e 120 caracteres")
+    @NotNull
+    @Size(min = 5, max = 120)
+    @NotBlank
     private String nome;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull
+    @NotBlank
     private String nascimento;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull
     @CPF
+    @NotBlank
     private String cpf;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull
+    @NotBlank
     private String telefone1;
     private String telefone2;
     private String telefone3;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull
+    @NotBlank
     private String rua;
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull
+    @NotBlank
     private String numero;
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull
+    @NotBlank
     private String cep;
     private String complemento;
     private String bairro;

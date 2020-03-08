@@ -2,13 +2,15 @@ package br.com.duosdevelop.vb.igrejaalocacao.services;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Cidade;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Endereco;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Estado;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.EnderecoRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
+import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.DateException;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,9 @@ public class MembroService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    @Autowired
+    private MessageSource messageSource;
+
     public List<Membro> findAll() {
         return repository.findAll();
     }
@@ -44,7 +49,16 @@ public class MembroService {
         return membro.orElseThrow(() -> new ObjectNotFoundException("Membro não encontrado"));
     }
 
-    public Membro fromDTO(NewMembroDTO newMembroDTO) throws ParseException {
+    public Membro fromDTO(NewMembroDTO newMembroDTO) throws Exception {
+
+        if (!newMembroDTO.getNascimento().matches("\\d{2}/\\d{2}/\\d{4}"))
+            throw new DateException(messageSource.getMessage("message.format.date", null, LocaleContextHolder.getLocale()),
+                    new ParseException("Data com formato "+newMembroDTO.getNascimento(), 0));
+
+        if (!newMembroDTO.getNascimento().matches("[0-3]?\\d/[0-1]?\\d/[12]\\d{3}"))
+            throw new DateException(messageSource.getMessage("message.value.date", null, LocaleContextHolder.getLocale()),
+                    new Exception("Data com valores incorretos "+newMembroDTO.getNascimento()));
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Membro membro = new Membro(newMembroDTO.getNome(), sdf.parse(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
         Cidade cidade = new Cidade(newMembroDTO.getCidade(), null, null);

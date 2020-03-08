@@ -1,4 +1,4 @@
-package br.com.duosdevelop.vb.igrejaalocacao.resources.exceptions;
+package br.com.duosdevelop.vb.igrejaalocacao.exceptionhandler;
 
 import java.io.Serializable;
 
