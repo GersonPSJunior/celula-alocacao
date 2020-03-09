@@ -36,6 +36,10 @@ public class Membro implements Serializable {
     public Membro() {
     }
 
+    public Membro(Integer id){
+        this.id = id;
+    }
+
     public Membro(String nome, Date nascimento, String cpf) {
         this.nome = nome;
         this.nascimento = nascimento;

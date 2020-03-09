@@ -47,6 +47,16 @@ public class Celula implements Serializable {
         this.discipulado = discipulado;
     }
 
+    public Celula(String nome, String lider, DiasSemana diasSemana) {
+        this.nome = nome;
+        this.lider = lider;
+        this.dia = diasSemana;
+    }
+
+    public Celula(Integer celula) {
+        id = celula;
+    }
+
     public Integer getId() {
         return id;
     }

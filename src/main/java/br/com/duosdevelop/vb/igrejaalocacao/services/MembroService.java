@@ -1,9 +1,8 @@
 package br.com.duosdevelop.vb.igrejaalocacao.services;
 
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Cidade;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Endereco;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.*;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
+import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.EnderecoRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.DateException;
@@ -28,6 +27,9 @@ public class MembroService {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private CelulaRepository celulaRepository;
 
     @Autowired
     private MessageSource messageSource;
@@ -61,13 +63,17 @@ public class MembroService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Membro membro = new Membro(newMembroDTO.getNome(), sdf.parse(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
-        Cidade cidade = new Cidade(newMembroDTO.getCidade(), null, null);
-        Endereco endereco = new Endereco(newMembroDTO.getRua(), newMembroDTO.getNumero(), newMembroDTO.getCep(), cidade);
+
+        celulaRepository.findById(newMembroDTO.getCelula()).orElseThrow(() -> new ObjectNotFoundException(
+                        "Objeto não encontrado! Id: " + newMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName()));
+        membro.setCelula(new Celula(newMembroDTO.getCelula()));
+        Cidade cidade = new Cidade(newMembroDTO.getEndereco().getCidade(), null, new Estado(newMembroDTO.getEndereco().getEstado(), null));
+        Endereco endereco = new Endereco(newMembroDTO.getEndereco().getRua(), newMembroDTO.getEndereco().getNumero(), newMembroDTO.getEndereco().getCep(), cidade);
         endereco.setMembro(membro);
-        if (newMembroDTO.getBairro() != null)
-            endereco.setBairro(newMembroDTO.getBairro());
-        if (newMembroDTO.getComplemento() != null)
-            endereco.setComplemento(newMembroDTO.getComplemento());
+        if (newMembroDTO.getEndereco().getBairro() != null)
+            endereco.setBairro(newMembroDTO.getEndereco().getBairro());
+        if (newMembroDTO.getEndereco().getComplemento() != null)
+            endereco.setComplemento(newMembroDTO.getEndereco().getComplemento());
         membro.setEnderecos(Arrays.asList(endereco));
         membro.getTelefone().add(newMembroDTO.getTelefone1());
         if (newMembroDTO.getTelefone2() != null)

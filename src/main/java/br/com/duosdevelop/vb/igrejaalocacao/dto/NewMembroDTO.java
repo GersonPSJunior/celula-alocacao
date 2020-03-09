@@ -28,24 +28,16 @@ public class NewMembroDTO implements Serializable {
     private String cpf;
 
     @NotNull
+    private Integer celula;
+
+    @NotNull
     @NotBlank
     private String telefone1;
     private String telefone2;
     private String telefone3;
 
     @NotNull
-    @NotBlank
-    private String rua;
-    @NotNull
-    @NotBlank
-    private String numero;
-    @NotNull
-    @NotBlank
-    private String cep;
-    private String complemento;
-    private String bairro;
-
-    private Integer cidade;
+    private NewEnderecoDTO endereco;
 
     public String getNome() {
         return nome;
@@ -95,52 +87,19 @@ public class NewMembroDTO implements Serializable {
         this.telefone3 = telefone3;
     }
 
-    public String getRua() {
-        return rua;
+    public NewEnderecoDTO getEndereco() {
+        return endereco;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setEndereco(NewEnderecoDTO endereco) {
+        this.endereco = endereco;
     }
 
-    public String getNumero() {
-        return numero;
+    public Integer getCelula() {
+        return celula;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setCelula(Integer celula) {
+        this.celula = celula;
     }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public Integer getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(Integer cidade) {
-        this.cidade = cidade;
-    }
-
 }
