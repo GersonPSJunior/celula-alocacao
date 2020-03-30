@@ -64,9 +64,9 @@ public class DBService {
         Rede rede1 = new Rede(null, "rede 1", mem2, igreja);
         Rede rede2 = new Rede(null, "rede 2", mem1, igreja);
 
-        Discipulado discipulado1 = new Discipulado(null, "Discipulado 1", rede1, mem3);
-        Discipulado discipulado2 = new Discipulado(null, "Discipulado 2", rede1, mem1);
-        Discipulado discipulado3 = new Discipulado(null, "Discipulado 3", rede2, mem2);
+        Discipulado discipulado1 = new Discipulado(null, "Discipulado 1", rede1, null);
+        Discipulado discipulado2 = new Discipulado(null, "Discipulado 2", rede1, null);
+        Discipulado discipulado3 = new Discipulado(null, "Discipulado 3", rede2, null);
 
         Celula celula1 = new Celula(null, "celula 1", "Ana", DiasSemana.SABADO, new Date(System.currentTimeMillis()), end3, discipulado1);
         Celula celula2 = new Celula(null, "celula 2", "Maria", DiasSemana.QUARTA, new Date(System.currentTimeMillis()), end2, discipulado2);

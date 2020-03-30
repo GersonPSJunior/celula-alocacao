@@ -27,7 +27,6 @@ public class NewMembroDTO implements Serializable {
     @NotBlank
     private String cpf;
 
-    @NotNull
     private Integer celula;
 
     @NotNull

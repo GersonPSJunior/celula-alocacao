@@ -63,10 +63,10 @@ public class MembroService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Membro membro = new Membro(newMembroDTO.getNome(), sdf.parse(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
-
-        celulaRepository.findById(newMembroDTO.getCelula()).orElseThrow(() -> new ObjectNotFoundException(
-                        "Objeto não encontrado! Id: " + newMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName()));
-        membro.setCelula(new Celula(newMembroDTO.getCelula()));
+        if(newMembroDTO.getCelula() != null) {
+            membro.setCelula(celulaRepository.findById(newMembroDTO.getCelula()).orElseThrow(() -> new ObjectNotFoundException(
+                    "Objeto não encontrado! Id: " + newMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName())));
+        }
         Cidade cidade = new Cidade(newMembroDTO.getEndereco().getCidade(), null, new Estado(newMembroDTO.getEndereco().getEstado(), null));
         Endereco endereco = new Endereco(newMembroDTO.getEndereco().getRua(), newMembroDTO.getEndereco().getNumero(), newMembroDTO.getEndereco().getCep(), cidade);
         endereco.setMembro(membro);

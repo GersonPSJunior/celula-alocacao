@@ -1,12 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Endereco implements Serializable {
     private static final long serialVersionUID = 1L;
 

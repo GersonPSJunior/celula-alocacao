@@ -51,19 +51,8 @@ public class CelulaService {
     @Transactional
     public Celula insert(Celula celula){
         celula.setId(null);
-        Celula celulaResult = repository.save(celula);
-        if (celulaResult.getMembros() != null) {
-            celulaResult.setMembros(celulaResult.getMembros().stream().map(membro -> {
-                Integer id = membro.getId();
-                membro = membroRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
-                        "Objeto não encontrado! Id: " + id + ", Tipo:" + Membro.class.getName()));
-                membro.setCelula(celulaResult);
-                return membro;
-            }).collect(Collectors.toList()));
-            membroRepository.saveAll(celulaResult.getMembros());
-        }
         enderecoRepository.save(celula.getEndereco());
-        discipuladoRepository.save(celula.getDiscipulado());
+        Celula celulaResult = repository.save(celula);
         return celulaResult;
     }
 
@@ -75,7 +64,8 @@ public class CelulaService {
         Celula celula = new Celula(newCelulaDTO.getNome(), newCelulaDTO.getLider(), DiasSemana.toEnum(newCelulaDTO.getDia()));
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         celula.setHorario(sdf.parse(newCelulaDTO.getHorario()));
-        celula.setDiscipulado(new Discipulado(newCelulaDTO.getDiscipulado(), null, null, null));
+        celula.setDiscipulado(discipuladoRepository.findById(newCelulaDTO.getDiscipulado()).orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado! Id: " + newCelulaDTO.getDiscipulado() + ", Tipo:" + Discipulado.class.getName())));
         Cidade cidade = new Cidade(newCelulaDTO.getEndereco().getCidade(), null, new Estado(newCelulaDTO.getEndereco().getEstado(), null));
         Endereco endereco = new Endereco(newCelulaDTO.getEndereco().getRua(), newCelulaDTO.getEndereco().getNumero(), newCelulaDTO.getEndereco().getCep(), cidade);
         if (newCelulaDTO.getEndereco().getBairro() != null)
@@ -83,8 +73,14 @@ public class CelulaService {
         if (newCelulaDTO.getEndereco().getComplemento() != null)
             endereco.setComplemento(newCelulaDTO.getEndereco().getComplemento());
         celula.setEndereco(endereco);
-        if (newCelulaDTO.getMembros() != null)
-            celula.setMembros(newCelulaDTO.getMembros().stream().map(Membro::new).collect(Collectors.toList()));
+        if (newCelulaDTO.getMembros() != null) {
+            celula.setMembros(newCelulaDTO.getMembros().stream().map(id -> {
+                Membro membro = membroRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
+                        "Objeto não encontrado! Id: " + id + ", Tipo:" + Membro.class.getName()));
+                membro.setCelula(celula);
+                return membro;
+            }).collect(Collectors.toList()));
+        }
         return celula;
     }
 }
