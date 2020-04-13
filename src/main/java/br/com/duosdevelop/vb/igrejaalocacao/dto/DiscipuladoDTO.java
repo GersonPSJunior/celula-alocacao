@@ -2,7 +2,7 @@ package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Discipulado;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Discipulador;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class DiscipuladoDTO implements Serializable {
 
     private Integer id;
     private String nome;
-    private Membro discipulador;
+    private Discipulador discipulador;
     private List<Celula> celulas = new ArrayList<>();
 
     public  DiscipuladoDTO(Discipulado discipulado){
@@ -38,11 +38,11 @@ public class DiscipuladoDTO implements Serializable {
         this.nome = nome;
     }
 
-    public Membro getDiscipulador() {
+    public Discipulador getDiscipulador() {
         return discipulador;
     }
 
-    public void setDiscipulador(Membro discipulador) {
+    public void setDiscipulador(Discipulador discipulador) {
         this.discipulador = discipulador;
     }
 

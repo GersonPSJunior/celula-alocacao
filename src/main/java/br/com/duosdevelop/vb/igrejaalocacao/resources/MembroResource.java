@@ -43,4 +43,13 @@ public class MembroResource {
         publisher.publishEvent(new CreateResourceEvent(this, response, membroResult.getId()));
         return ResponseEntity.status(HttpStatus.CREATED).body(membroResult);
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public ResponseEntity<Void> update(@Valid @RequestBody NewMembroDTO newMembroDTO, @PathVariable Integer id, HttpServletResponse response) throws Exception {
+        Membro membro = service.fromDTO(newMembroDTO);
+        membro.setId(id);
+        membro = service.update(membro);
+        publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
+        return ResponseEntity.noContent().build();
+    }
 }

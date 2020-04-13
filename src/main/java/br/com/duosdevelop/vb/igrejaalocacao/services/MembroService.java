@@ -5,6 +5,7 @@ import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.EnderecoRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
+import br.com.duosdevelop.vb.igrejaalocacao.repositories.PessoaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.DateException;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class MembroService {
     private EnderecoRepository enderecoRepository;
 
     @Autowired
+    private PessoaRepository pessoaRepository;
+
+    @Autowired
     private CelulaRepository celulaRepository;
 
     @Autowired
@@ -41,14 +45,29 @@ public class MembroService {
     @Transactional
     public Membro insert(Membro membro) {
         membro.setId(null);
+
+        Pessoa pessoa = pessoaRepository.findByCpf(membro.getPessoa().getCpf());
+        if (pessoa == null) pessoa = pessoaRepository.save(membro.getPessoa());
+        membro.setPessoa(pessoa);
+
+        enderecoRepository.saveAll(membro.getPessoa().getEnderecos());
         membro = repository.save(membro);
-        enderecoRepository.saveAll(membro.getEnderecos());
         return  membro;
     }
 
     public Membro find(Integer id) {
         Optional<Membro> membro = repository.findById(id);
         return membro.orElseThrow(() -> new ObjectNotFoundException("Membro não encontrado"));
+    }
+
+    public Membro update(Membro membro){
+        find(membro.getId());
+        return repository.save(membro);
+    }
+
+    public void delete(Integer id){
+        find(id);
+        repository.deleteById(id);
     }
 
     public Membro fromDTO(NewMembroDTO newMembroDTO) throws Exception {
@@ -62,24 +81,25 @@ public class MembroService {
                     new Exception("Data com valores incorretos "+newMembroDTO.getNascimento()));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Membro membro = new Membro(newMembroDTO.getNome(), sdf.parse(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
+        Pessoa pessoa = new Pessoa(newMembroDTO.getNome(), sdf.parse(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
+        Membro membro = new Membro(pessoa, newMembroDTO.getBatizado(), newMembroDTO.getAtivo());
         if(newMembroDTO.getCelula() != null) {
             membro.setCelula(celulaRepository.findById(newMembroDTO.getCelula()).orElseThrow(() -> new ObjectNotFoundException(
                     "Objeto não encontrado! Id: " + newMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName())));
         }
         Cidade cidade = new Cidade(newMembroDTO.getEndereco().getCidade(), null, new Estado(newMembroDTO.getEndereco().getEstado(), null));
         Endereco endereco = new Endereco(newMembroDTO.getEndereco().getRua(), newMembroDTO.getEndereco().getNumero(), newMembroDTO.getEndereco().getCep(), cidade);
-        endereco.setMembro(membro);
+        endereco.setPessoa(membro.getPessoa());
         if (newMembroDTO.getEndereco().getBairro() != null)
             endereco.setBairro(newMembroDTO.getEndereco().getBairro());
         if (newMembroDTO.getEndereco().getComplemento() != null)
             endereco.setComplemento(newMembroDTO.getEndereco().getComplemento());
-        membro.setEnderecos(Arrays.asList(endereco));
-        membro.getTelefone().add(newMembroDTO.getTelefone1());
+        membro.getPessoa().setEnderecos(Arrays.asList(endereco));
+        membro.getPessoa().getTelefone().add(newMembroDTO.getTelefone1());
         if (newMembroDTO.getTelefone2() != null)
-            membro.getTelefone().add(newMembroDTO.getTelefone2());
+            membro.getPessoa().getTelefone().add(newMembroDTO.getTelefone2());
         if (newMembroDTO.getTelefone3() != null)
-            membro.getTelefone().add(newMembroDTO.getTelefone3());
+            membro.getPessoa().getTelefone().add(newMembroDTO.getTelefone3());
         return membro;
     }
 }

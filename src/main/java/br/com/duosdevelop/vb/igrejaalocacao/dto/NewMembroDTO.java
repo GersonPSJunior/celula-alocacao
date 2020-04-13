@@ -1,5 +1,6 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
+import br.com.duosdevelop.vb.igrejaalocacao.services.validation.CPFExist;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
@@ -9,9 +10,6 @@ import java.io.Serializable;
 
 public class NewMembroDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public NewMembroDTO() {
-    }
 
     @NotNull
     @Size(min = 5, max = 120)
@@ -25,6 +23,7 @@ public class NewMembroDTO implements Serializable {
     @NotNull
     @CPF
     @NotBlank
+    @CPFExist
     private String cpf;
 
     private Integer celula;
@@ -36,7 +35,16 @@ public class NewMembroDTO implements Serializable {
     private String telefone3;
 
     @NotNull
+    private Boolean batizado;
+
+    @NotNull
+    private Boolean ativo;
+
+    @NotNull
     private NewEnderecoDTO endereco;
+
+    public NewMembroDTO() {
+    }
 
     public String getNome() {
         return nome;
@@ -100,5 +108,21 @@ public class NewMembroDTO implements Serializable {
 
     public void setCelula(Integer celula) {
         this.celula = celula;
+    }
+
+    public Boolean getBatizado() {
+        return batizado;
+    }
+
+    public void setBatizado(Boolean batizado) {
+        this.batizado = batizado;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 }

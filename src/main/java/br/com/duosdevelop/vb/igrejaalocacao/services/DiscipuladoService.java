@@ -1,14 +1,8 @@
 package br.com.duosdevelop.vb.igrejaalocacao.services;
 
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Discipulado;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Rede;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.*;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewDiscipuladoDTO;
-import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
-import br.com.duosdevelop.vb.igrejaalocacao.repositories.DiscipuladoRepository;
-import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
-import br.com.duosdevelop.vb.igrejaalocacao.repositories.RedeRepository;
+import br.com.duosdevelop.vb.igrejaalocacao.repositories.*;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +22,7 @@ public class DiscipuladoService {
     private RedeRepository redeRepository;
 
     @Autowired
-    private MembroRepository membroRepository;
+    private DiscipuladorRepository discipuladorRepository;
 
     @Autowired
     private CelulaRepository celulaRepository;
@@ -50,9 +44,9 @@ public class DiscipuladoService {
     public Discipulado from(NewDiscipuladoDTO newDiscipuladoDTO) {
         Discipulado discipulado = new Discipulado(null, newDiscipuladoDTO.getNome(),
                 redeRepository.findById(newDiscipuladoDTO.getIdRede()).orElseThrow(() -> new ObjectNotFoundException(
-                        "Objeto não encontrado! Id: " + newDiscipuladoDTO.getIdRede() + ", Tipo:" + Rede.class.getName())),
-                membroRepository.findById(newDiscipuladoDTO.getIdDiscipulador()).orElseThrow(() ->
-                        new ObjectNotFoundException("Objeto não encontrado! Id: " + newDiscipuladoDTO.getIdDiscipulador() + ", Tipo:" + Membro.class.getName())));
+                        "Objeto não encontrado! Id: " + newDiscipuladoDTO.getIdRede() + ", Tipo:" + Rede.class.getName())));
+        discipuladorRepository.findById(newDiscipuladoDTO.getIdDiscipulador()).orElseThrow(() ->
+                new ObjectNotFoundException("Objeto não encontrado! Id: " + newDiscipuladoDTO.getIdDiscipulador() + ", Tipo:" + Discipulador.class.getName()));
         if (newDiscipuladoDTO.getIdCelula() != null){
             discipulado.setCelulas(newDiscipuladoDTO.getIdCelula().stream().map(id -> celulaRepository.findById(id).orElseThrow(() ->
                     new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo:" + Celula.class.getName())))

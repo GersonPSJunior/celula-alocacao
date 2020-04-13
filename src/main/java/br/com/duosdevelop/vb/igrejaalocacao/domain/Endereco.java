@@ -22,9 +22,9 @@ public class Endereco implements Serializable {
     private String codPostal;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "membro_id")
-    private Membro membro;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pessoa_id")
+    private Pessoa pessoa;
 
     @ManyToOne
     @JoinColumn(name = "cidade_id")
@@ -98,12 +98,12 @@ public class Endereco implements Serializable {
         this.codPostal = codPostal;
     }
 
-    public Membro getMembro() {
-        return membro;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
-    public void setMembro(Membro membro) {
-        this.membro = membro;
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
     public Cidade getCidade() {

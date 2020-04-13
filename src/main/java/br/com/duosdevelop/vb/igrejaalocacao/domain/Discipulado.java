@@ -1,7 +1,5 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class Discipulado implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "discipulador_id")
-    private Membro discipulador;
+    private Discipulador discipulador;
 
     @OneToMany(mappedBy = "discipulado")
     private List<Celula> celulas = new ArrayList<>();
@@ -29,11 +27,10 @@ public class Discipulado implements Serializable {
     public Discipulado() {
     }
 
-    public Discipulado(Integer id, String nome, Rede rede, Membro discipulador) {
+    public Discipulado(Integer id, String nome, Rede rede) {
         this.id = id;
         this.nome = nome;
         this.rede = rede;
-        this.discipulador = discipulador;
     }
 
     public Integer getId() {
@@ -52,11 +49,11 @@ public class Discipulado implements Serializable {
         this.nome = nome;
     }
 
-    public Membro getDiscipulador() {
+    public Discipulador getDiscipulador() {
         return discipulador;
     }
 
-    public void setDiscipulador(Membro discipulador) {
+    public void setDiscipulador(Discipulador discipulador) {
         this.discipulador = discipulador;
     }
 

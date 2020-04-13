@@ -26,8 +26,8 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     private MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Error> parseData(Exception e, HttpServletRequest request){
-        Error error = new Error(e.getMessage(), e.getCause().toString());
+    public ResponseEntity<FieldMessage> parseData(Exception e, HttpServletRequest request){
+        FieldMessage error = new FieldMessage(e.getMessage(), e.getCause().toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
@@ -41,7 +41,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String messageUser = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
         String messageDev = ex.getCause().toString();
-        return handleExceptionInternal(ex, new Error(messageUser, messageDev), headers, HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(ex, new FieldMessage(messageUser, messageDev), headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override
@@ -50,27 +50,9 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, createErrors(ex.getBindingResult()), headers, status, request);
     }
 
-    private List<Error> createErrors(BindingResult bindingResult){
+    private List<FieldMessage> createErrors(BindingResult bindingResult){
         return bindingResult.getFieldErrors().stream().map(fieldError ->
-            new Error(messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()),
+            new FieldMessage(messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()),
                     fieldError.toString())).collect(Collectors.toList());
-    }
-
-    public static class Error{
-        private String messageUser;
-        private String messageDev;
-
-        public Error(String messageUser, String messageDev) {
-            this.messageUser = messageUser;
-            this.messageDev = messageDev;
-        }
-
-        public String getMessageUsuario() {
-            return messageUser;
-        }
-
-        public String getMessageDesenvolvedor() {
-            return messageDev;
-        }
     }
 }

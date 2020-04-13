@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-@MappedSuperclass
-public abstract class Pessoa implements Serializable {
+@Entity
+public class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -18,14 +18,19 @@ public abstract class Pessoa implements Serializable {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date nascimento;
+
+    @Column(unique = true)
     private String cpf;
 
     @ElementCollection
     @CollectionTable(name = "telefone")
     private Set<String> telefone = new HashSet<>();
 
-    @OneToMany(mappedBy = "membro")
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
+
+    public Pessoa() {
+    }
 
     public Pessoa(String nome, Date nascimento, String cpf) {
         this.nome = nome;

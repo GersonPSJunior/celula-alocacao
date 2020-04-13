@@ -22,6 +22,7 @@ public class NewEnderecoDTO implements Serializable {
     private String complemento;
     private String bairro;
 
+    @NotNull
     private Integer cidade;
 
     private Integer estado;
