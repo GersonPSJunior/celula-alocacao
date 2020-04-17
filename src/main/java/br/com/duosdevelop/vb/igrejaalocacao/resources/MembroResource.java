@@ -2,6 +2,7 @@ package br.com.duosdevelop.vb.igrejaalocacao.resources;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
+import br.com.duosdevelop.vb.igrejaalocacao.dto.UpdateMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.event.CreateResourceEvent;
 import br.com.duosdevelop.vb.igrejaalocacao.services.MembroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,8 @@ public class MembroResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody NewMembroDTO newMembroDTO, @PathVariable Integer id, HttpServletResponse response) throws Exception {
-        Membro membro = service.fromDTO(newMembroDTO);
+    public ResponseEntity<Void> update(@Valid @RequestBody UpdateMembroDTO updateMembroDTO, @PathVariable Integer id, HttpServletResponse response) throws Exception {
+        Membro membro = service.fromDTO(updateMembroDTO);
         membro.setId(id);
         membro = service.update(membro);
         publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));

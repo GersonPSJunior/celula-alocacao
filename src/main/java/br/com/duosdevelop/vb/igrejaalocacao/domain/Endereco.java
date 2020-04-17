@@ -43,6 +43,16 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
     }
 
+    public Endereco(Integer id, String rua, String numero, String codPostal, Cidade cidade) {
+        this.id = id;
+        this.rua = rua;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.codPostal = codPostal;
+        this.cidade = cidade;
+    }
+
     public Endereco(String rua, String numero, String cep, Cidade cidade) {
         this.rua = rua;
         this.numero = numero;

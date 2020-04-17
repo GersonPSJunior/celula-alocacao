@@ -26,7 +26,7 @@ public class Pessoa implements Serializable {
     @CollectionTable(name = "telefone")
     private Set<String> telefone = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.MERGE)
     private List<Endereco> enderecos = new ArrayList<>();
 
     public Pessoa() {

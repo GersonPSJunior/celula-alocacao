@@ -2,20 +2,17 @@ package br.com.duosdevelop.vb.igrejaalocacao.services;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.*;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
+import br.com.duosdevelop.vb.igrejaalocacao.dto.UpdateMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.EnderecoRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.PessoaRepository;
-import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.DateException;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
+import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +33,7 @@ public class MembroService {
     private CelulaRepository celulaRepository;
 
     @Autowired
-    private MessageSource messageSource;
+    private DateUtil dateUtil;
 
     public List<Membro> findAll() {
         return repository.findAll();
@@ -60,8 +57,10 @@ public class MembroService {
         return membro.orElseThrow(() -> new ObjectNotFoundException("Membro não encontrado"));
     }
 
+    @Transactional
     public Membro update(Membro membro){
         find(membro.getId());
+        pessoaRepository.save(membro.getPessoa());
         return repository.save(membro);
     }
 
@@ -72,16 +71,7 @@ public class MembroService {
 
     public Membro fromDTO(NewMembroDTO newMembroDTO) throws Exception {
 
-        if (!newMembroDTO.getNascimento().matches("\\d{2}/\\d{2}/\\d{4}"))
-            throw new DateException(messageSource.getMessage("message.format.date", null, LocaleContextHolder.getLocale()),
-                    new ParseException("Data com formato "+newMembroDTO.getNascimento(), 0));
-
-        if (!newMembroDTO.getNascimento().matches("[0-3]?\\d/[0-1]?\\d/[12]\\d{3}"))
-            throw new DateException(messageSource.getMessage("message.value.date", null, LocaleContextHolder.getLocale()),
-                    new Exception("Data com valores incorretos "+newMembroDTO.getNascimento()));
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Pessoa pessoa = new Pessoa(newMembroDTO.getNome(), sdf.parse(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
+        Pessoa pessoa = new Pessoa(newMembroDTO.getNome(), dateUtil.toDate(newMembroDTO.getNascimento()), newMembroDTO.getCpf());
         Membro membro = new Membro(pessoa, newMembroDTO.getBatizado(), newMembroDTO.getAtivo());
         if(newMembroDTO.getCelula() != null) {
             membro.setCelula(celulaRepository.findById(newMembroDTO.getCelula()).orElseThrow(() -> new ObjectNotFoundException(
@@ -100,6 +90,34 @@ public class MembroService {
             membro.getPessoa().getTelefone().add(newMembroDTO.getTelefone2());
         if (newMembroDTO.getTelefone3() != null)
             membro.getPessoa().getTelefone().add(newMembroDTO.getTelefone3());
+        return membro;
+    }
+
+    public Membro fromDTO(UpdateMembroDTO updateMembroDTO) throws Exception {
+
+        Pessoa pessoaCpf = pessoaRepository.findByCpf(updateMembroDTO.getCpf());
+        if (pessoaCpf == null)
+            throw  new ObjectNotFoundException("Objeto não encontrado! Id: " + updateMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName());
+
+        Pessoa pessoa = new Pessoa(pessoaCpf.getId(),updateMembroDTO.getNome(), dateUtil.toDate(updateMembroDTO.getNascimento()), updateMembroDTO.getCpf());
+        Membro membro = new Membro(pessoa, updateMembroDTO.getBatizado(), updateMembroDTO.getAtivo());
+        if(updateMembroDTO.getCelula() != null) {
+            membro.setCelula(celulaRepository.findById(updateMembroDTO.getCelula()).orElseThrow(() -> new ObjectNotFoundException(
+                    "Objeto não encontrado! Id: " + updateMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName())));
+        }
+        Cidade cidade = new Cidade(updateMembroDTO.getEndereco().getCidade(), null, new Estado(updateMembroDTO.getEndereco().getEstado(), null));
+        Endereco endereco = new Endereco(updateMembroDTO.getEndereco().getId(), updateMembroDTO.getEndereco().getRua(), updateMembroDTO.getEndereco().getNumero(), updateMembroDTO.getEndereco().getCep(), cidade);
+        endereco.setPessoa(membro.getPessoa());
+        if (updateMembroDTO.getEndereco().getBairro() != null)
+            endereco.setBairro(updateMembroDTO.getEndereco().getBairro());
+        if (updateMembroDTO.getEndereco().getComplemento() != null)
+            endereco.setComplemento(updateMembroDTO.getEndereco().getComplemento());
+        membro.getPessoa().setEnderecos(Arrays.asList(endereco));
+        membro.getPessoa().getTelefone().add(updateMembroDTO.getTelefone1());
+        if (updateMembroDTO.getTelefone2() != null)
+            membro.getPessoa().getTelefone().add(updateMembroDTO.getTelefone2());
+        if (updateMembroDTO.getTelefone3() != null)
+            membro.getPessoa().getTelefone().add(updateMembroDTO.getTelefone3());
         return membro;
     }
 }
