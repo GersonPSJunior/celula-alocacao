@@ -53,4 +53,10 @@ public class MembroResource {
         publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
         return ResponseEntity.noContent().build();
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
