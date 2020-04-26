@@ -43,8 +43,8 @@ public class MembroService {
     public Membro insert(Membro membro) {
         membro.setId(null);
 
-        Pessoa pessoa = pessoaRepository.findByCpf(membro.getPessoa().getCpf());
-        if (pessoa == null) pessoa = pessoaRepository.save(membro.getPessoa());
+        Pessoa pessoa = pessoaRepository.findByCpf(membro.getPessoa().getCpf())
+                .orElse(pessoaRepository.save(membro.getPessoa()));
         membro.setPessoa(pessoa);
 
         enderecoRepository.saveAll(membro.getPessoa().getEnderecos());
@@ -95,9 +95,8 @@ public class MembroService {
 
     public Membro fromDTO(UpdateMembroDTO updateMembroDTO) throws Exception {
 
-        Pessoa pessoaCpf = pessoaRepository.findByCpf(updateMembroDTO.getCpf());
-        if (pessoaCpf == null)
-            throw  new ObjectNotFoundException("Objeto não encontrado! Id: " + updateMembroDTO.getCelula() + ", Tipo:" + Membro.class.getName());
+        Pessoa pessoaCpf = pessoaRepository.findByCpf(updateMembroDTO.getCpf()).orElseThrow(() ->
+                new ObjectNotFoundException("Objeto não encontrado! CPF: " + updateMembroDTO.getCpf() + ", Tipo:" + Pessoa.class.getName()));
 
         Pessoa pessoa = new Pessoa(pessoaCpf.getId(),updateMembroDTO.getNome(), dateUtil.toDate(updateMembroDTO.getNascimento()), updateMembroDTO.getCpf());
         Membro membro = new Membro(pessoa, updateMembroDTO.getBatizado(), updateMembroDTO.getAtivo());
