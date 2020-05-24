@@ -1,16 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Discipulado implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Discipulado extends EntityBase<Discipulado> {
+
     private String nome;
 
     @ManyToOne
@@ -27,18 +25,15 @@ public class Discipulado implements Serializable {
     public Discipulado() {
     }
 
-    public Discipulado(Integer id, String nome, Rede rede) {
+    public Discipulado(Long id) {
         this.id = id;
+    }
+
+    public Discipulado(String nome, Rede rede, Discipulador discipulador, List<Celula> celulas) {
         this.nome = nome;
         this.rede = rede;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.discipulador = discipulador;
+        this.celulas = celulas;
     }
 
     public String getNome() {
@@ -74,15 +69,13 @@ public class Discipulado implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Discipulado that = (Discipulado) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Discipulado{" +
+                "id=" + getId() +
+                "nome='" + nome + '\'' +
+                ", rede=" + rede +
+                ", discipulador=" + discipulador +
+                ", celulas=" + celulas +
+                '}';
     }
 }

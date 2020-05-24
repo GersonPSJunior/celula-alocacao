@@ -34,16 +34,15 @@ public class DiscipuladoResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Discipulado> find(@PathVariable Integer id){
+    public ResponseEntity<Discipulado> find(@PathVariable Long id){
         Discipulado discipulado = service.find(id);
         return ResponseEntity.ok().body(discipulado);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Discipulado> insert(@Valid @RequestBody NewDiscipuladoDTO newDiscipuladoDTO, HttpServletResponse response){
-        Discipulado discipulado = service.from(newDiscipuladoDTO);
-        Discipulado discipuladoResult = service.insert(discipulado);
-        publisher.publishEvent(new CreateResourceEvent(this, response, discipuladoResult.getId()));
+        Discipulado discipulado = service.insert(newDiscipuladoDTO.toDomain());
+        publisher.publishEvent(new CreateResourceEvent(this, response, discipulado.getId()));
         return ResponseEntity.status(HttpStatus.CREATED).body(discipulado);
     }
 }

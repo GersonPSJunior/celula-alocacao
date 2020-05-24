@@ -1,16 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 
-import javax.persistence.*;
-import java.io.Serializable;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Discipulador implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Discipulador extends EntityBase<Discipulador> {
 
     @OneToOne
     @JoinColumn(name = "pessoa_id")
@@ -19,11 +17,7 @@ public class Discipulador implements Serializable {
     public Discipulador() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public Discipulador(Long id) {
         this.id = id;
     }
 
@@ -33,5 +27,13 @@ public class Discipulador implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    @Override
+    public String toString() {
+        return "Discipulador{" +
+                "id=" + getId() +
+                "pessoa=" + pessoa +
+                '}';
     }
 }

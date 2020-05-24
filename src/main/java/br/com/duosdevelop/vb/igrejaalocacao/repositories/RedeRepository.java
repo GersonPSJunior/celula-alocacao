@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RedeRepository extends JpaRepository<Rede, Integer> {
+public interface RedeRepository extends JpaRepository<Rede, Long> {
 }

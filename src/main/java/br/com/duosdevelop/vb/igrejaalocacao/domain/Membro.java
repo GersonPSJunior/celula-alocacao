@@ -1,18 +1,15 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Membro implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Membro extends EntityBase<Membro> {
 
     @OneToOne
     @JoinColumn(name = "pessoa_id")
@@ -30,18 +27,14 @@ public class Membro implements Serializable {
     public Membro() {
     }
 
+    public Membro(Long id) {
+        this.id = id;
+    }
+
     public Membro(Pessoa pessoa, Boolean batizado, Boolean ativo) {
         this.pessoa = pessoa;
         this.batizado = batizado;
         this.ativo = ativo;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Pessoa getPessoa() {
@@ -77,15 +70,19 @@ public class Membro implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Membro membro = (Membro) o;
-        return Objects.equals(id, membro.id);
+    public String toString() {
+        return "Membro{" +
+                "id=" + getId() +
+                "pessoa=" + pessoa +
+                ", celula=" + celula +
+                ", ativo=" + ativo +
+                ", batizado=" + batizado +
+                '}';
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void replaceValues(Membro membroReplace) {
+        pessoa.replaceValues(membroReplace.pessoa);
+        ativo = membroReplace.getAtivo();
+        batizado = membroReplace.getBatizado();
     }
 }

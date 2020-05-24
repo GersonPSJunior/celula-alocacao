@@ -1,19 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Igreja implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Igreja extends EntityBase<Igreja> {
     private String nome;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -30,18 +25,9 @@ public class Igreja implements Serializable {
     public Igreja() {
     }
 
-    public Igreja(Integer id, String nome, Endereco endereco) {
-        this.id = id;
+    public Igreja(String nome, Endereco endereco) {
         this.nome = nome;
         this.endereco = endereco;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -77,15 +63,13 @@ public class Igreja implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Igreja igreja = (Igreja) o;
-        return Objects.equals(id, igreja.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Igreja{" +
+                "id=" + getId() +
+                "nome='" + nome + '\'' +
+                ", endereco=" + endereco +
+                ", cultos=" + cultos +
+                ", redes=" + redes +
+                '}';
     }
 }

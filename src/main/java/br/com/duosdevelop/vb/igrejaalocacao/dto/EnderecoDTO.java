@@ -1,15 +1,22 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Cidade;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Endereco;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Estado;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-public class NewEnderecoDTO implements Serializable {
+public class EnderecoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public NewEnderecoDTO() {
+    public EnderecoDTO() {
     }
 
+    @NotNull
+    private Integer id;
     @NotNull
     @NotBlank
     private String rua;
@@ -23,9 +30,20 @@ public class NewEnderecoDTO implements Serializable {
     private String bairro;
 
     @NotNull
-    private Integer cidade;
+    @Size(min = 1)
+    private Long cidade;
 
-    private Integer estado;
+    @NotNull
+    @Size(min = 1)
+    private Long estado;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getRua() {
         return rua;
@@ -67,19 +85,29 @@ public class NewEnderecoDTO implements Serializable {
         this.bairro = bairro;
     }
 
-    public Integer getCidade() {
+    public Long getCidade() {
         return cidade;
     }
 
-    public void setCidade(Integer cidade) {
+    public void setCidade(Long cidade) {
         this.cidade = cidade;
     }
 
-    public Integer getEstado() {
+    public Long getEstado() {
         return estado;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(Long estado) {
         this.estado = estado;
+    }
+
+    public Endereco toDomain() {
+        Endereco endereco = new Endereco(rua, numero, null, null, cep,
+                new Cidade(cidade));
+        if(complemento != null && !complemento.equals(""))
+            endereco.setComplemento(complemento);
+        if(bairro != null && !bairro.equals(""))
+            endereco.setBairro(bairro);
+        return endereco;
     }
 }

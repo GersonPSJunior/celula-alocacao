@@ -1,11 +1,18 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Discipulado;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
+import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NewCelulaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -30,13 +37,14 @@ public class NewCelulaDTO implements Serializable {
     @NotBlank
     private String horario;
 
-    private List<Integer> membros = new ArrayList<>();
+    @NotNull
+    private List<Long> membros = new ArrayList<>();
 
     @NotNull
-    private Integer discipulado;
+    private Long discipulado;
 
     @NotNull
-    private NewEnderecoDTO endereco;
+    private EnderecoDTO endereco;
 
     public String getNome() {
         return nome;
@@ -70,27 +78,34 @@ public class NewCelulaDTO implements Serializable {
         this.horario = horario;
     }
 
-    public List<Integer> getMembros() {
+    public List<Long> getMembros() {
         return membros;
     }
 
-    public void setMembros(List<Integer> membros) {
+    public void setMembros(List<Long> membros) {
         this.membros = membros;
     }
 
-    public Integer getDiscipulado() {
+    public Long getDiscipulado() {
         return discipulado;
     }
 
-    public void setDiscipulado(Integer discipulado) {
+    public void setDiscipulado(Long discipulado) {
         this.discipulado = discipulado;
     }
 
-    public NewEnderecoDTO getEndereco() {
+    public EnderecoDTO getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(NewEnderecoDTO endereco) {
+    public void setEndereco(EnderecoDTO endereco) {
         this.endereco = endereco;
+    }
+
+    public Celula toDomain() throws Exception {
+        Celula celula = new Celula(nome, lider, DiasSemana.toEnum(dia), DateUtil.toTime(horario), endereco.toDomain(),
+                new Discipulado(discipulado));
+        celula.setMembros(membros.stream().map(Membro::new).collect(Collectors.toList()));
+        return celula;
     }
 }

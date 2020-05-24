@@ -1,20 +1,15 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Estado implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Estado extends EntityBase<Estado> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
 
     @OneToMany(mappedBy = "estado")
@@ -23,17 +18,12 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(Integer id, String nome) {
+    public Estado(Long id) {
         this.id = id;
+    }
+
+    public Estado(String nome) {
         this.nome = nome;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -53,15 +43,11 @@ public class Estado implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Estado estado = (Estado) o;
-        return Objects.equals(id, estado.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Estado{" +
+                "id=" + getId() +
+                "nome='" + nome + '\'' +
+                ", cidades=" + cidades +
+                '}';
     }
 }

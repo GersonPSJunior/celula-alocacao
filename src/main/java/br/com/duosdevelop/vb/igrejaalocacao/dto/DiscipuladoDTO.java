@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DiscipuladoDTO implements Serializable {
 
-    private Integer id;
+    private Long id;
     private String nome;
     private Discipulador discipulador;
     private List<Celula> celulas = new ArrayList<>();
@@ -22,11 +22,11 @@ public class DiscipuladoDTO implements Serializable {
         celulas = discipulado.getCelulas();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

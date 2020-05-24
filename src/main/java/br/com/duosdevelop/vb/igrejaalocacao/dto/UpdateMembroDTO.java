@@ -1,11 +1,17 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Pessoa;
+import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
+import br.com.duosdevelop.vb.igrejaalocacao.services.validation.CPFExist;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Arrays;
 
 public class UpdateMembroDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -24,8 +30,6 @@ public class UpdateMembroDTO implements Serializable {
     @NotBlank
     private String cpf;
 
-    private Integer celula;
-
     @NotNull
     @NotBlank
     private String telefone1;
@@ -39,7 +43,7 @@ public class UpdateMembroDTO implements Serializable {
     private Boolean ativo;
 
     @NotNull
-    private UpdateEnderecoDTO endereco;
+    private EnderecoDTO endereco;
 
     public UpdateMembroDTO() {
     }
@@ -92,20 +96,12 @@ public class UpdateMembroDTO implements Serializable {
         this.telefone3 = telefone3;
     }
 
-    public UpdateEnderecoDTO getEndereco() {
+    public EnderecoDTO getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(UpdateEnderecoDTO endereco) {
+    public void setEndereco(EnderecoDTO endereco) {
         this.endereco = endereco;
-    }
-
-    public Integer getCelula() {
-        return celula;
-    }
-
-    public void setCelula(Integer celula) {
-        this.celula = celula;
     }
 
     public Boolean getBatizado() {
@@ -122,5 +118,16 @@ public class UpdateMembroDTO implements Serializable {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public Membro toDomain() throws Exception {
+        Pessoa pessoa = new Pessoa(nome, LocalDate.parse(nascimento, DateUtil.MEDIUM_DATE_FORMATTER), cpf);
+        pessoa.setEnderecos(Arrays.asList(endereco.toDomain()));
+        pessoa.getTelefone().add(telefone1);
+        if(telefone2 != null && !"".equals(telefone2))
+            pessoa.getTelefone().add(telefone2);
+        if(telefone3 != null && !"".equals(telefone3))
+            pessoa.getTelefone().add(telefone3);
+        return new Membro(pessoa, batizado, ativo);
     }
 }

@@ -19,11 +19,14 @@ import java.util.List;
 @RequestMapping(value = "/membros")
 public class MembroResource {
 
-    @Autowired
-    private MembroService service;
+    private final MembroService service;
+    private final ApplicationEventPublisher publisher;
 
     @Autowired
-    private ApplicationEventPublisher publisher;
+    public MembroResource(MembroService service, ApplicationEventPublisher publisher) {
+        this.service = service;
+        this.publisher = publisher;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Membro>> findAll(){
@@ -32,30 +35,27 @@ public class MembroResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Membro> find(@PathVariable Integer id){
+    public ResponseEntity<Membro> find(@PathVariable Long id){
         Membro membro = service.find(id);
         return ResponseEntity.ok().body(membro);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Membro> insert(@Valid @RequestBody NewMembroDTO newMembroDTO, HttpServletResponse response) throws Exception {
-        Membro membro = service.fromDTO(newMembroDTO);
-        Membro membroResult = service.insert(membro);
-        publisher.publishEvent(new CreateResourceEvent(this, response, membroResult.getId()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(membroResult);
+        Membro membro = service.insert(newMembroDTO.toDomain());
+        publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(membro);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody UpdateMembroDTO updateMembroDTO, @PathVariable Integer id, HttpServletResponse response) throws Exception {
-        Membro membro = service.fromDTO(updateMembroDTO);
-        membro.setId(id);
-        membro = service.update(membro);
+    public ResponseEntity<Void> update(@Valid @RequestBody UpdateMembroDTO updateMembroDTO, @PathVariable Long id, HttpServletResponse response) throws Exception {
+        Membro membro = service.update(id, updateMembroDTO.toDomain());
         publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

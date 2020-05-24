@@ -1,22 +1,18 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Celula implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Celula extends EntityBase<Celula> {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
     private String lider;
     private DiasSemana dia;
@@ -37,32 +33,17 @@ public class Celula implements Serializable {
     public Celula() {
     }
 
-    public Celula(Integer id, String nome, String lider, DiasSemana dia, Date horario, Endereco endereco, Discipulado discipulado) {
+    public Celula(Long id) {
         this.id = id;
+    }
+
+    public Celula(String nome, String lider, DiasSemana dia, Date horario, Endereco endereco, Discipulado discipulado) {
         this.nome = nome;
         this.lider = lider;
         this.dia = dia;
         this.horario = horario;
         this.endereco = endereco;
         this.discipulado = discipulado;
-    }
-
-    public Celula(String nome, String lider, DiasSemana diasSemana) {
-        this.nome = nome;
-        this.lider = lider;
-        this.dia = diasSemana;
-    }
-
-    public Celula(Integer celula) {
-        id = celula;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -122,15 +103,16 @@ public class Celula implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Celula celula = (Celula) o;
-        return Objects.equals(id, celula.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Celula{" +
+                "id=" + getId() +
+                "nome='" + nome + '\'' +
+                ", lider='" + lider + '\'' +
+                ", dia=" + dia +
+                ", horario=" + horario +
+                ", endereco=" + endereco +
+                ", membros=" + membros +
+                ", discipulado=" + discipulado +
+                '}';
     }
 }

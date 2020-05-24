@@ -1,12 +1,10 @@
 package br.com.duosdevelop.vb.igrejaalocacao.resources;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.CelulaDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewCelulaDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.event.CreateResourceEvent;
 import br.com.duosdevelop.vb.igrejaalocacao.services.CelulaService;
-import br.com.duosdevelop.vb.igrejaalocacao.services.MembroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -36,16 +34,15 @@ public class CelulaResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Celula> find(@PathVariable Integer id){
+    public ResponseEntity<Celula> find(@PathVariable Long id){
         Celula celula = service.find(id);
         return ResponseEntity.ok().body(celula);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Celula> insert(@Valid @RequestBody NewCelulaDTO newCelulaDTO, HttpServletResponse response) throws Exception {
-        Celula celula = service.fromDTO(newCelulaDTO);
-        Celula celulaResult = service.insert(celula);
-        publisher.publishEvent(new CreateResourceEvent(this, response, celulaResult.getId()));
+        Celula celula = service.insert(newCelulaDTO.toDomain());
+        publisher.publishEvent(new CreateResourceEvent(this, response, celula.getId()));
         return ResponseEntity.status(HttpStatus.CREATED).body(celula);
     }
 }

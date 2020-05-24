@@ -8,13 +8,18 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
 
 @Component
 public class DateUtil {
     @Autowired
-    private MessageSource messageSource;
-    public Date toDate(String date) throws Exception {
+    private static MessageSource messageSource;
+
+    public static final DateTimeFormatter MEDIUM_DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+
+    public static Date toDate(String date) throws Exception {
         if (!date.matches("\\d{2}/\\d{2}/\\d{4}"))
             throw new DateException(messageSource.getMessage("message.format.date", null, LocaleContextHolder.getLocale()),
                     new ParseException("Data com formato "+date, 0));
@@ -25,5 +30,13 @@ public class DateUtil {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.parse(date);
+    }
+
+    public static Date toTime(String time) throws Exception {
+        if (!time.matches("\\d{2}:\\d{2}"))
+            throw new DateException(messageSource.getMessage("message.format.hour", null, LocaleContextHolder.getLocale()),
+                    new ParseException("Horário com formato incorreto "+ time, 0));
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.parse(time);
     }
 }

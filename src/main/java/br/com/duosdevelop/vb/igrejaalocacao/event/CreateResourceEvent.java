@@ -9,9 +9,9 @@ public class CreateResourceEvent extends ApplicationEvent {
     private static final long serialVersionUID = 1L;
 
     private HttpServletResponse response;
-    private Integer codigo;
+    private Long codigo;
 
-    public CreateResourceEvent(Object source, HttpServletResponse response, Integer codigo) {
+    public CreateResourceEvent(Object source, HttpServletResponse response, Long codigo) {
         super(source);
         this.response = response;
         this.codigo = codigo;
@@ -21,7 +21,7 @@ public class CreateResourceEvent extends ApplicationEvent {
         return response;
     }
 
-    public Integer getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 }

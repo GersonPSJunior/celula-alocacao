@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiscipuladoRepository extends JpaRepository<Discipulado, Integer> {
+public interface DiscipuladoRepository extends JpaRepository<Discipulado, Long> {
 }

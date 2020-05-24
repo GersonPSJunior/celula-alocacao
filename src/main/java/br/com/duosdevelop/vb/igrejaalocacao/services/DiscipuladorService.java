@@ -16,13 +16,8 @@ public class DiscipuladorService {
         return repository.findAll();
     }
 
-    public Discipulador find(Integer id){
+    public Discipulador find(Long id){
         return repository.findById(id).orElseThrow(() ->
                 new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo:" + Discipulador.class.getName()));
-    }
-
-    public Discipulador insert(Discipulador discipulador){
-        discipulador.setId(null);
-        return repository.save(discipulador);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
+public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
     @Transactional(readOnly = true)
     Optional<Pessoa> findByCpf(String cpf);

@@ -1,20 +1,19 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Endereco implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Endereco extends EntityBase<Endereco> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String rua;
     private String numero;
     private String complemento;
@@ -33,39 +32,13 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
-    public Endereco(Integer id, String rua, String numero, String complemento, String bairro, String codPostal, Cidade cidade) {
-        this.id = id;
+    public Endereco(String rua, String numero, String complemento, String bairro, String codPostal, Cidade cidade) {
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
         this.bairro = bairro;
         this.codPostal = codPostal;
         this.cidade = cidade;
-    }
-
-    public Endereco(Integer id, String rua, String numero, String codPostal, Cidade cidade) {
-        this.id = id;
-        this.rua = rua;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.codPostal = codPostal;
-        this.cidade = cidade;
-    }
-
-    public Endereco(String rua, String numero, String cep, Cidade cidade) {
-        this.rua = rua;
-        this.numero = numero;
-        this.codPostal = cep;
-        this.cidade = cidade;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getRua() {
@@ -125,15 +98,27 @@ public class Endereco implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Endereco endereco = (Endereco) o;
-        return Objects.equals(id, endereco.id);
+    public String toString() {
+        return "Endereco{" +
+                "id=" + getId() +
+                "rua='" + rua + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", codPostal='" + codPostal + '\'' +
+                ", pessoa=" + pessoa +
+                ", cidade=" + cidade +
+                '}';
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void replaceValues(List<Endereco> enderecos) {
+        enderecos.forEach(endereco -> {
+            rua = endereco.getRua();
+            numero = endereco.getNumero();
+            complemento = endereco.getComplemento();
+            bairro = endereco.getBairro();
+            codPostal = endereco.getCodPostal();
+            cidade = endereco.getCidade();
+        });
     }
 }

@@ -1,7 +1,6 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Discipulado;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Endereco;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 
@@ -10,7 +9,7 @@ import java.util.Date;
 
 public class CelulaDTO implements Serializable {
 
-    private Integer id;
+    private Long id;
     private String nome;
     private String lider;
     private DiasSemana dia;
@@ -26,11 +25,11 @@ public class CelulaDTO implements Serializable {
         endereco = celula.getEndereco();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

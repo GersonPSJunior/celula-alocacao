@@ -1,18 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Cidade implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class Cidade extends EntityBase<Cidade> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String name;
 
     @ManyToOne
@@ -22,18 +18,13 @@ public class Cidade implements Serializable{
     public Cidade() {
     }
 
-    public Cidade(Integer id, String name, Estado estado) {
+    public Cidade(Long id) {
         this.id = id;
+    }
+
+    public Cidade(String name, Estado estado) {
         this.name = name;
         this.estado = estado;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -45,15 +36,11 @@ public class Cidade implements Serializable{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cidade cidade = (Cidade) o;
-        return Objects.equals(id, cidade.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Cidade{" +
+                "id='" + getId() +
+                "name='" + name + '\'' +
+                ", estado=" + estado +
+                '}';
     }
 }

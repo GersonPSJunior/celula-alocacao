@@ -29,30 +29,14 @@ public class DiscipuladoService {
 
     @Transactional
     public Discipulado insert(Discipulado discipulado){
-        discipulado.setId(null);
         return repository.save(discipulado);
     }
     public List<Discipulado> findAll(){
         return repository.findAll();
     }
 
-    public Discipulado find(Integer id){
+    public Discipulado find(Long id){
         Optional<Discipulado> discipulado = repository.findById(id);
         return discipulado.orElseThrow(() -> new ObjectNotFoundException("Discipulado não encontrado"));
-    }
-
-    public Discipulado from(NewDiscipuladoDTO newDiscipuladoDTO) {
-        Discipulado discipulado = new Discipulado(null, newDiscipuladoDTO.getNome(),
-                redeRepository.findById(newDiscipuladoDTO.getIdRede()).orElseThrow(() -> new ObjectNotFoundException(
-                        "Objeto não encontrado! Id: " + newDiscipuladoDTO.getIdRede() + ", Tipo:" + Rede.class.getName())));
-        discipuladorRepository.findById(newDiscipuladoDTO.getIdDiscipulador()).orElseThrow(() ->
-                new ObjectNotFoundException("Objeto não encontrado! Id: " + newDiscipuladoDTO.getIdDiscipulador() + ", Tipo:" + Discipulador.class.getName()));
-        if (newDiscipuladoDTO.getIdCelula() != null){
-            discipulado.setCelulas(newDiscipuladoDTO.getIdCelula().stream().map(id -> celulaRepository.findById(id).orElseThrow(() ->
-                    new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo:" + Celula.class.getName())))
-                    .collect(Collectors.toList()));
-        }
-        return discipulado;
-
     }
 }

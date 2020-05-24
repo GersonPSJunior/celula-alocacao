@@ -1,20 +1,18 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
-public class Culto implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Culto extends EntityBase<Culto> {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
     private DiasSemana dia;
     @JsonFormat(pattern = "HH:mm")
@@ -28,20 +26,11 @@ public class Culto implements Serializable {
     public Culto() {
     }
 
-    public Culto(Integer id, String nome, DiasSemana dia, Date horario, Igreja igreja) {
-        this.id = id;
+    public Culto(String nome, DiasSemana dia, Date horario, Igreja igreja) {
         this.nome = nome;
         this.dia = dia;
         this.horario = horario;
         this.igreja = igreja;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -77,15 +66,13 @@ public class Culto implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Culto culto = (Culto) o;
-        return Objects.equals(id, culto.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Culto{" +
+                "id=" + getId() +
+                "nome='" + nome + '\'' +
+                ", dia=" + dia +
+                ", horario=" + horario +
+                ", igreja=" + igreja +
+                '}';
     }
 }

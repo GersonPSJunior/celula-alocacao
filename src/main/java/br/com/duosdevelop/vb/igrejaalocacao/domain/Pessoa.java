@@ -1,23 +1,18 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
-public class Pessoa implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class Pessoa extends EntityBase<Pessoa> {
     private String nome;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date nascimento;
+    private LocalDate nascimento;
 
     @Column(unique = true)
     private String cpf;
@@ -32,25 +27,10 @@ public class Pessoa implements Serializable {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, Date nascimento, String cpf) {
+    public Pessoa(String nome, LocalDate nascimento, String cpf) {
         this.nome = nome;
         this.nascimento = nascimento;
         this.cpf = cpf;
-    }
-
-    public Pessoa(Integer id, String nome, Date nascimento, String cpf) {
-        this.id = id;
-        this.nome = nome;
-        this.nascimento = nascimento;
-        this.cpf = cpf;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -61,11 +41,11 @@ public class Pessoa implements Serializable {
         this.nome = nome;
     }
 
-    public Date getNascimento() {
+    public LocalDate getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
 
@@ -94,15 +74,22 @@ public class Pessoa implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pessoa pessoa = (Pessoa) o;
-        return Objects.equals(id, pessoa.id);
+    public String toString() {
+        return "Pessoa{" +
+                "id='" + getId() +
+                "nome='" + nome + '\'' +
+                ", nascimento=" + nascimento +
+                ", cpf='" + cpf + '\'' +
+                ", telefone=" + telefone +
+                ", enderecos=" + enderecos +
+                '}';
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void replaceValues(Pessoa pessoaReplace) {
+        nome = pessoaReplace.getNome();
+        nascimento = pessoaReplace.getNascimento();
+        cpf = pessoaReplace.getCpf();
+        telefone = pessoaReplace.getTelefone();
+        enderecos.forEach(endereco -> endereco.replaceValues(pessoaReplace.getEnderecos()));
     }
 }

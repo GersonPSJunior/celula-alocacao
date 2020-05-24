@@ -1,23 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-public class Rede implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class Rede extends EntityBase<Rede> {
     private String nome;
 
     @OneToOne
@@ -34,19 +25,13 @@ public class Rede implements Serializable {
     public Rede() {
     }
 
-    public Rede(Integer id, String nome, Membro obreiro, Igreja igreja) {
+    public Rede(Long id){
         this.id = id;
+    }
+    public Rede(String nome, Membro obreiro, Igreja igreja) {
         this.nome = nome;
         this.obreiro = obreiro;
         this.igreja = igreja;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -82,15 +67,13 @@ public class Rede implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rede rede = (Rede) o;
-        return Objects.equals(id, rede.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public String toString() {
+        return "Rede{" +
+                "id=" + getId() +
+                "nome='" + nome + '\'' +
+                ", obreiro=" + obreiro +
+                ", igreja=" + igreja +
+                ", discipulados=" + discipulados +
+                '}';
     }
 }
