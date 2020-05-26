@@ -1,6 +1,8 @@
 package br.com.duosdevelop.vb.igrejaalocacao.resources;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
+import br.com.duosdevelop.vb.igrejaalocacao.dto.CelulaDTO;
+import br.com.duosdevelop.vb.igrejaalocacao.dto.MembroOutputDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.UpdateMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.event.CreateResourceEvent;
@@ -36,10 +38,12 @@ public class MembroResource {
         return ResponseEntity.ok().body(membros);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Membro> find(@PathVariable Long id){
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<MembroOutputDTO> find(@PathVariable Long id){
         Membro membro = service.find(id);
-        return ResponseEntity.ok().body(membro);
+        return ResponseEntity.ok().body(new MembroOutputDTO(membro.getPessoa(),
+                membro.getCelula() != null ? new CelulaDTO(membro.getCelula()) : null,
+                membro.getAtivo(), membro.getBatizado()));
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -49,16 +53,25 @@ public class MembroResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(membro);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody UpdateMembroDTO updateMembroDTO, @PathVariable Long id, HttpServletResponse response) throws Exception {
         Membro membro = service.update(id, updateMembroDTO.toDomain());
         publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{id}/celula")
+    public ResponseEntity<Void> insertCelula(@PathVariable Long id,
+                                                        @RequestBody Long idCelula,
+                                                        HttpServletResponse response){
+        Membro membro = service.updateCelula(id, idCelula);
+        publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
         return ResponseEntity.noContent().build();
     }
 }

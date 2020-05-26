@@ -1,13 +1,14 @@
 package br.com.duosdevelop.vb.igrejaalocacao.services;
 
+import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Pessoa;
+import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.EnderecoRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.PessoaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
 import br.com.duosdevelop.vb.igrejaalocacao.services.responsibility.CheckFindAll;
-import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class MembroService {
     private PessoaRepository pessoaRepository;
 
     @Autowired
-    private DateUtil dateUtil;
+    private CelulaRepository celulaRepository;
 
     public List<Membro> findAll(String ativo, String batizado) {
         return new CheckFindAll(repository).check(ativo, batizado);
@@ -46,11 +47,12 @@ public class MembroService {
 
     public Membro find(Long id) {
         Optional<Membro> membro = repository.findById(id);
-        return membro.orElseThrow(() -> new ObjectNotFoundException("Membro não encontrado"));
+        return membro.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id:"+ id
+                +", Type:"+ Membro.class.getName()));
     }
 
     @Transactional
-    public Membro update(Long id, Membro updateMembro) throws Exception {
+    public Membro update(Long id, Membro updateMembro){
         Membro membro = find(id);
         membro.replaceValues(updateMembro);
         return repository.save(membro);
@@ -61,23 +63,15 @@ public class MembroService {
         repository.deleteById(id);
     }
 
-    public List<Membro> findAllAtivoAndBatizado() {
-        return repository.findAllByAtivoTrueAndBatizadoTrue();
-    }
-
-    public List<Membro> findAllAtivo() {
-        return repository.findAllByAtivoTrue();
-    }
-
-    public List<Membro> findAllBatizado() {
-        return repository.findAllByBatizadoTrue();
-    }
-
-    public List<Membro> findAllAtivoNaoBatizado() {
-        return repository.findAllByAtivoTrueAndBatizadoFalse();
-    }
-
-    public List<Membro> findAllBatizadoNaoAtivo() {
-        return repository.findAllByAtivoFalseAndBatizadoTrue();
+    @Transactional
+    public Membro updateCelula(Long id, Long idCelula) {
+        Celula celula = celulaRepository.findById(idCelula)
+                .orElseThrow(() -> new ObjectNotFoundException("Object not found! Id:" + id
+                        + ", Type:" + Celula.class.getName()));
+        Membro membro = find(id);
+        membro.setCelula(new Celula(idCelula));
+        celula.getMembros().add(membro);
+        celulaRepository.save(celula);
+        return repository.save(membro);
     }
 }
