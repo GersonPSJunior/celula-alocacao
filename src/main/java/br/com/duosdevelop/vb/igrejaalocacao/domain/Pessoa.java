@@ -21,7 +21,7 @@ public class Pessoa extends EntityBase<Pessoa> {
     @CollectionTable(name = "telefone")
     private Set<String> telefone = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     public Pessoa() {
@@ -71,18 +71,6 @@ public class Pessoa extends EntityBase<Pessoa> {
 
     public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
-    }
-
-    @Override
-    public String toString() {
-        return "Pessoa{" +
-                "id='" + getId() +
-                "nome='" + nome + '\'' +
-                ", nascimento=" + nascimento +
-                ", cpf='" + cpf + '\'' +
-                ", telefone=" + telefone +
-                ", enderecos=" + enderecos +
-                '}';
     }
 
     public void replaceValues(Pessoa pessoaReplace) {

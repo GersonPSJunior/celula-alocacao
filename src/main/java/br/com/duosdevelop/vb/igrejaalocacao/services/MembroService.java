@@ -60,4 +60,24 @@ public class MembroService {
         find(id);
         repository.deleteById(id);
     }
+
+    public List<Membro> findAllAtivoAndBatizado() {
+        return repository.findAllByAtivoTrueAndBatizadoTrue();
+    }
+
+    public List<Membro> findAllAtivo() {
+        return repository.findAllByAtivoTrue();
+    }
+
+    public List<Membro> findAllBatizado() {
+        return repository.findAllByBatizadoTrue();
+    }
+
+    public List<Membro> findAllAtivoNaoBatizado() {
+        return repository.findAllByAtivoTrueAndBatizadoFalse();
+    }
+
+    public List<Membro> findAllBatizadoNaoAtivo() {
+        return repository.findAllByAtivoFalseAndBatizadoTrue();
+    }
 }

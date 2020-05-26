@@ -45,11 +45,15 @@ public class DBService {
         Cidade cid2 = new Cidade("Cabo Frio", es2);
         Cidade cid3 = new Cidade("Belo Horizonte", es3);
 
-        Membro mem1 = new Membro(new Pessoa("Maria", LocalDate.now(), "16523721537"), false, false);
+        Pessoa maria = new Pessoa("Maria", LocalDate.now(), "16523721537");
+        Pessoa joao = new Pessoa("João", LocalDate.now(), "6278647836");
+        Pessoa joaquim = new Pessoa("Joaquim", LocalDate.now(), "768468646");
+
+        Membro mem1 = new Membro(maria, false, false);
         mem1.getPessoa().getTelefone().addAll(Arrays.asList("976678758"));
-        Membro mem2 = new Membro(new Pessoa("João", LocalDate.now(), "6278647836"), true, false);
+        Membro mem2 = new Membro(joao, true, false);
         mem2.getPessoa().getTelefone().addAll(Arrays.asList("93846274", "648376646"));
-        Membro mem3 = new Membro(new Pessoa("Joaquim", LocalDate.now(), "768468646"), true, false);
+        Membro mem3 = new Membro(joaquim, false, true);
         mem3.getPessoa().getTelefone().addAll(Arrays.asList("93487287", "92346274"));
 
         Endereco end1 = new Endereco("Rua 1", "1", "Casa", "Vila 1", "63218763", cid1);
