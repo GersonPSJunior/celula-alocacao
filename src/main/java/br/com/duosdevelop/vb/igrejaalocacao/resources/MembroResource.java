@@ -4,7 +4,6 @@ import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.NewMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.dto.UpdateMembroDTO;
 import br.com.duosdevelop.vb.igrejaalocacao.event.CreateResourceEvent;
-import br.com.duosdevelop.vb.igrejaalocacao.resources.responsibility.CheckFindAll;
 import br.com.duosdevelop.vb.igrejaalocacao.services.MembroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -33,7 +32,7 @@ public class MembroResource {
     public ResponseEntity<List<Membro>> findAll(
             @RequestParam(name = "ativo", defaultValue = "") String ativo,
             @RequestParam(name = "batizado", defaultValue = "") String batizado){
-        List<Membro> membros = new CheckFindAll(service).check(ativo, batizado);
+        List<Membro> membros = service.findAll(ativo, batizado);
         return ResponseEntity.ok().body(membros);
     }
 

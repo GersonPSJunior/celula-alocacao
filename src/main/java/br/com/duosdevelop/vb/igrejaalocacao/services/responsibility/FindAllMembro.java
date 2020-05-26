@@ -1,15 +1,15 @@
-package br.com.duosdevelop.vb.igrejaalocacao.resources.responsibility;
+package br.com.duosdevelop.vb.igrejaalocacao.services.responsibility;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
-import br.com.duosdevelop.vb.igrejaalocacao.services.MembroService;
+import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
 
 import java.util.List;
 
 public class FindAllMembro implements DispenseChain {
     private DispenseChain chain;
-    private MembroService service;
-    public FindAllMembro(MembroService service) {
-        this.service = service;
+    private MembroRepository repository;
+    public FindAllMembro(MembroRepository repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -19,6 +19,6 @@ public class FindAllMembro implements DispenseChain {
 
     @Override
     public List<Membro> listResult(String ativo, String batizado) {
-        return service.findAll();
+        return repository.findAll();
     }
 }

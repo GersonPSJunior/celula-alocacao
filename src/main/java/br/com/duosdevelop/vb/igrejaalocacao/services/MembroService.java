@@ -2,11 +2,11 @@ package br.com.duosdevelop.vb.igrejaalocacao.services;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Pessoa;
-import br.com.duosdevelop.vb.igrejaalocacao.repositories.CelulaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.EnderecoRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.MembroRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.PessoaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
+import br.com.duosdevelop.vb.igrejaalocacao.services.responsibility.CheckFindAll;
 import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,8 @@ public class MembroService {
     @Autowired
     private DateUtil dateUtil;
 
-    public List<Membro> findAll() {
-        return repository.findAll();
+    public List<Membro> findAll(String ativo, String batizado) {
+        return new CheckFindAll(repository).check(ativo, batizado);
     }
 
     @Transactional

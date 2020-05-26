@@ -1,4 +1,4 @@
-package br.com.duosdevelop.vb.igrejaalocacao.resources.responsibility;
+package br.com.duosdevelop.vb.igrejaalocacao.services.responsibility;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 
