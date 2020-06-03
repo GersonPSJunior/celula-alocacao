@@ -1,7 +1,6 @@
 package br.com.duosdevelop.vb.igrejaalocacao.dto;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
-import br.com.duosdevelop.vb.igrejaalocacao.domain.Discipulado;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
@@ -103,8 +102,7 @@ public class NewCelulaDTO implements Serializable {
     }
 
     public Celula toDomain() throws Exception {
-        Celula celula = new Celula(nome, lider, DiasSemana.toEnum(dia), DateUtil.toTime(horario), endereco.toDomain(),
-                new Discipulado(discipulado));
+        Celula celula = new Celula(nome, lider, DiasSemana.toEnum(dia), DateUtil.toTime(horario), endereco.toDomain());
         celula.setMembros(membros.stream().map(Membro::new).collect(Collectors.toList()));
         return celula;
     }

@@ -25,11 +25,6 @@ public class Celula extends EntityBase<Celula> {
     @OneToMany(mappedBy = "celula")
     private List<Membro> membros = new ArrayList<>();
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "discipulado_id")
-    private Discipulado discipulado;
-
     public Celula() {
     }
 
@@ -37,13 +32,12 @@ public class Celula extends EntityBase<Celula> {
         this.id = id;
     }
 
-    public Celula(String nome, String lider, DiasSemana dia, Date horario, Endereco endereco, Discipulado discipulado) {
+    public Celula(String nome, String lider, DiasSemana dia, Date horario, Endereco endereco) {
         this.nome = nome;
         this.lider = lider;
         this.dia = dia;
         this.horario = horario;
         this.endereco = endereco;
-        this.discipulado = discipulado;
     }
 
     public String getNome() {
@@ -86,14 +80,6 @@ public class Celula extends EntityBase<Celula> {
         this.endereco = endereco;
     }
 
-    public Discipulado getDiscipulado() {
-        return discipulado;
-    }
-
-    public void setDiscipulado(Discipulado discipulado) {
-        this.discipulado = discipulado;
-    }
-
     public List<Membro> getMembros() {
         return membros;
     }
@@ -112,7 +98,6 @@ public class Celula extends EntityBase<Celula> {
                 ", horario=" + horario +
                 ", endereco=" + endereco +
                 ", membros=" + membros +
-                ", discipulado=" + discipulado +
                 '}';
     }
 }

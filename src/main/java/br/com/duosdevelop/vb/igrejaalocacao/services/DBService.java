@@ -24,14 +24,6 @@ public class DBService {
     @Autowired
     private MembroRepository membroRepository;
     @Autowired
-    private CultoRepository cultoRepository;
-    @Autowired
-    private IgrejaRepository igrejaRepository;
-    @Autowired
-    private RedeRepository redeRepository;
-    @Autowired
-    private DiscipuladoRepository discipuladoRepository;
-    @Autowired
     private CelulaRepository celulaRepository;
 
     public void instantiateTestDatabase(){
@@ -63,23 +55,11 @@ public class DBService {
         Endereco end5 = new Endereco("Rua 5", "5", "Casa", "Vila 5", "43565244", cid2);
         Endereco end6 = new Endereco("Rua 6", "6", "Predio", "Vila 6", "43565244", cid2);
 
-        Igreja igreja = new Igreja("Batista", end6);
-
-        Culto culto1 = new Culto("Adoração", DiasSemana.DOMINGO, new Date(System.currentTimeMillis()), igreja);
-        Culto culto2 = new Culto("Jovens", DiasSemana.SABADO, new Date(System.currentTimeMillis()), igreja);
-
-        Rede rede1 = new Rede("rede 1", mem2, igreja);
-        Rede rede2 = new Rede("rede 2", mem1, igreja);
-
-        Discipulado discipulado1 = new Discipulado("Discipulado 1", rede1, null, null);
-        Discipulado discipulado2 = new Discipulado("Discipulado 2", rede1, null, null);
-        Discipulado discipulado3 = new Discipulado("Discipulado 3", rede2, null, null);
-
-        Celula celula1 = new Celula("celula 1", "Ana", DiasSemana.SABADO, new Date(System.currentTimeMillis()), end3, discipulado1);
-        Celula celula2 = new Celula("celula 2", "Maria", DiasSemana.QUARTA, new Date(System.currentTimeMillis()), end2, discipulado2);
-        Celula celula3 = new Celula("celula 3", "João", DiasSemana.QUINTA, new Date(System.currentTimeMillis()), end5, discipulado1);
-        Celula celula4 = new Celula("celula 4", "Tata", DiasSemana.SABADO, new Date(System.currentTimeMillis()), end4, discipulado3);
-        Celula celula5 = new Celula("celula 5", "Fulano", DiasSemana.SEXTA, new Date(System.currentTimeMillis()), end1, discipulado3);
+        Celula celula1 = new Celula("celula 1", "Ana", DiasSemana.SABADO, new Date(System.currentTimeMillis()), end3);
+        Celula celula2 = new Celula("celula 2", "Maria", DiasSemana.QUARTA, new Date(System.currentTimeMillis()), end2);
+        Celula celula3 = new Celula("celula 3", "João", DiasSemana.QUINTA, new Date(System.currentTimeMillis()), end5);
+        Celula celula4 = new Celula("celula 4", "Tata", DiasSemana.SABADO, new Date(System.currentTimeMillis()), end4);
+        Celula celula5 = new Celula("celula 5", "Fulano", DiasSemana.SEXTA, new Date(System.currentTimeMillis()), end1);
 
 
         // Associações de instancias
@@ -98,13 +78,6 @@ public class DBService {
         mem2.getPessoa().getEnderecos().addAll(Arrays.asList(end2, end4));
         mem3.getPessoa().getEnderecos().addAll(Arrays.asList(end1, end3));
 
-
-        igreja.getCultos().addAll(Arrays.asList(culto1, culto2));
-        igreja.getRedes().addAll(Arrays.asList(rede1,rede2));
-
-        rede1.getDiscipulados().addAll(Arrays.asList(discipulado1, discipulado2));
-        rede1.getDiscipulados().addAll(Arrays.asList(discipulado3));
-
         celula1.getMembros().addAll(Arrays.asList(mem1, mem2));
         celula2.getMembros().addAll(Arrays.asList(mem3, mem2));
         celula3.getMembros().addAll(Arrays.asList(mem1));
@@ -115,13 +88,9 @@ public class DBService {
 
         estadoRepository.saveAll(Arrays.asList(es1, es2, es3));
         cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
-        igrejaRepository.saveAll(Arrays.asList(igreja));
-        cultoRepository.saveAll(Arrays.asList(culto1, culto2));
         pessoaRepository.saveAll(Arrays.asList(mem1.getPessoa(), mem2.getPessoa(), mem3.getPessoa()));
         membroRepository.saveAll(Arrays.asList(mem1, mem2, mem3));
         enderecoRepository.saveAll(Arrays.asList(end1, end2, end3, end4, end5));
-        redeRepository.saveAll(Arrays.asList(rede1, rede2));
-        discipuladoRepository.saveAll(Arrays.asList(discipulado1, discipulado2, discipulado3));
         celulaRepository.saveAll(Arrays.asList(celula1, celula2, celula3, celula4, celula5));
     }
 }
