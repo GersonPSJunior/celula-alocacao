@@ -1,6 +1,7 @@
 package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,6 +14,7 @@ public class Cidade extends EntityBase<Cidade> {
 
     @ManyToOne
     @JoinColumn(name = "estado_id")
+    @JsonIgnore
     private Estado estado;
 
     public Cidade() {
@@ -33,6 +35,14 @@ public class Cidade extends EntityBase<Cidade> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
+    public Estado getEstado() {
+        return estado;
     }
 
     @Override

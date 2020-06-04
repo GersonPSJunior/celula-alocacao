@@ -2,6 +2,7 @@ package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Estado extends EntityBase<Estado> {
 
     private String nome;
 
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.REMOVE)
     private List<Cidade> cidades = new ArrayList<>();
 
     public Estado() {
