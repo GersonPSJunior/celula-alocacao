@@ -60,7 +60,7 @@ public class CelulaResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();

@@ -34,7 +34,7 @@ public class EstadoResource {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @RequestMapping(path = "/{id}")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Estado> findId(@PathVariable Long id){
         return  ResponseEntity.ok(service.findId(id));
     }
@@ -46,7 +46,7 @@ public class EstadoResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(estadoResult);
     }
 
-    @RequestMapping(path = "/{id}/cidade",method = RequestMethod.PUT)
+    @RequestMapping(path = "/{id}/cidade", method = RequestMethod.PUT)
     public ResponseEntity<Void> insertCidade(@RequestBody String cidade,
                                                @PathVariable("id") Long id){
         Estado estado = service.findId(id);
@@ -54,7 +54,7 @@ public class EstadoResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(path = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
