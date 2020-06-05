@@ -30,13 +30,13 @@ public class CelulaResource {
     public ResponseEntity<List<CelulaDTO>> findAll(){
         List<Celula> celulas = service.findAll();
         List<CelulaDTO> celulaDTOList = celulas.stream().map(CelulaDTO::new).collect(Collectors.toList());
-        return ResponseEntity.ok().body(celulaDTOList);
+        return ResponseEntity.ok(celulaDTOList);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Celula> find(@PathVariable Long id){
         Celula celula = service.find(id);
-        return ResponseEntity.ok().body(celula);
+        return ResponseEntity.ok(celula);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -44,5 +44,25 @@ public class CelulaResource {
         Celula celula = service.insert(newCelulaDTO.toDomain());
         publisher.publishEvent(new CreateResourceEvent(this, response, celula.getId()));
         return ResponseEntity.status(HttpStatus.CREATED).body(celula);
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@Valid @RequestBody NewCelulaDTO newCelulaDTO,
+                                       @PathVariable Long id) throws Exception {
+        service.update(id, newCelulaDTO.toDomain());
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(path = "/{id}/membro", method = RequestMethod.PUT)
+    public ResponseEntity<Void> insertMembro(@RequestBody List<Long> idMembros,
+                                             @PathVariable Long id){
+        service.insertMembro(id, idMembros);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

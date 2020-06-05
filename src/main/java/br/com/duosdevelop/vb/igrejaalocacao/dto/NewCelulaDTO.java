@@ -37,12 +37,6 @@ public class NewCelulaDTO implements Serializable {
     private String horario;
 
     @NotNull
-    private List<Long> membros = new ArrayList<>();
-
-    @NotNull
-    private Long discipulado;
-
-    @NotNull
     private EnderecoDTO endereco;
 
     public String getNome() {
@@ -77,22 +71,6 @@ public class NewCelulaDTO implements Serializable {
         this.horario = horario;
     }
 
-    public List<Long> getMembros() {
-        return membros;
-    }
-
-    public void setMembros(List<Long> membros) {
-        this.membros = membros;
-    }
-
-    public Long getDiscipulado() {
-        return discipulado;
-    }
-
-    public void setDiscipulado(Long discipulado) {
-        this.discipulado = discipulado;
-    }
-
     public EnderecoDTO getEndereco() {
         return endereco;
     }
@@ -103,7 +81,6 @@ public class NewCelulaDTO implements Serializable {
 
     public Celula toDomain() throws Exception {
         Celula celula = new Celula(nome, lider, DiasSemana.toEnum(dia), DateUtil.toTime(horario), endereco.toDomain());
-        celula.setMembros(membros.stream().map(Membro::new).collect(Collectors.toList()));
         return celula;
     }
 }

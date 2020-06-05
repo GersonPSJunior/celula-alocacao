@@ -68,12 +68,6 @@ public class DBService {
         es2.getCidades().addAll(Arrays.asList(cid2));
         es3.getCidades().addAll(Arrays.asList(cid3));
 
-        end1.setPessoa(mem3.getPessoa());
-        end2.setPessoa(mem2.getPessoa());
-        end3.setPessoa(mem3.getPessoa());
-        end4.setPessoa(mem2.getPessoa());
-        end5.setPessoa(mem1.getPessoa());
-
         mem1.getPessoa().getEnderecos().addAll(Arrays.asList(end5));
         mem2.getPessoa().getEnderecos().addAll(Arrays.asList(end2, end4));
         mem3.getPessoa().getEnderecos().addAll(Arrays.asList(end1, end3));

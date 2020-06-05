@@ -124,7 +124,6 @@ public class NewMembroDTO implements Serializable {
     public Membro toDomain() throws Exception {
         Pessoa pessoa = new Pessoa(nome, LocalDate.parse(nascimento, DateUtil.MEDIUM_DATE_FORMATTER), cpf);
         pessoa.setEnderecos(Arrays.asList(endereco.toDomain()));
-        pessoa.getEnderecos().forEach(endereco1 -> endereco1.setPessoa(pessoa));
         pessoa.getTelefone().add(telefone1);
         if(telefone2 != null && !"".equals(telefone2))
             pessoa.getTelefone().add(telefone2);

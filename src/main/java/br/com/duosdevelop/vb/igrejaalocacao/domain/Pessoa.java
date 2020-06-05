@@ -21,7 +21,7 @@ public class Pessoa extends EntityBase<Pessoa> {
     @CollectionTable(name = "telefone")
     private Set<String> telefone = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     public Pessoa() {

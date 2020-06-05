@@ -20,11 +20,6 @@ public class Endereco extends EntityBase<Endereco> {
     private String bairro;
     private String codPostal;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
-
     @ManyToOne
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
@@ -81,14 +76,6 @@ public class Endereco extends EntityBase<Endereco> {
         this.codPostal = codPostal;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
     public Cidade getCidade() {
         return cidade;
     }
@@ -106,7 +93,6 @@ public class Endereco extends EntityBase<Endereco> {
                 ", complemento='" + complemento + '\'' +
                 ", bairro='" + bairro + '\'' +
                 ", codPostal='" + codPostal + '\'' +
-                ", pessoa=" + pessoa +
                 ", cidade=" + cidade +
                 '}';
     }
