@@ -4,6 +4,8 @@ import br.com.duosdevelop.vb.igrejaalocacao.domain.Celula;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.Membro;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 import br.com.duosdevelop.vb.igrejaalocacao.services.utils.DateUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,22 +24,26 @@ public class NewCelulaDTO implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 3, max = 75)
-    private String nome;
+    @ApiModelProperty(notes = "Deve colocar o nome da célula", required = true)
+    public String nome;
 
     @NotNull
     @NotBlank
     @Size(min = 3, max = 120)
-    private String lider;
+    @ApiModelProperty(notes = "Nome do lider da célula", required = true)
+    public String lider;
 
     @NotNull
-    private Integer dia;
+    @ApiModelProperty(notes = "Dia da semana enum de 1 à 7", required = true)
+    public Integer dia;
 
     @NotNull
     @NotBlank
-    private String horario;
+    @ApiModelProperty(notes = "Deve colocar o horário da célula", required = true, example = "00:00")
+    public String horario;
 
     @NotNull
-    private EnderecoDTO endereco;
+    public EnderecoDTO endereco;
 
     public String getNome() {
         return nome;
