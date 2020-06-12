@@ -12,4 +12,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
     @Transactional(readOnly = true)
     Optional<Pessoa> findByCpf(String cpf);
+
+    Optional<Pessoa> findByEmail(String email);
 }

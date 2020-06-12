@@ -4,6 +4,7 @@ import br.com.duosdevelop.vb.igrejaalocacao.domain.*;
 import br.com.duosdevelop.vb.igrejaalocacao.domain.enums.DiasSemana;
 import br.com.duosdevelop.vb.igrejaalocacao.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ import java.util.Date;
 @Service
 public class DBService {
 
+    @Autowired
+    private BCryptPasswordEncoder be;
     @Autowired
     private CidadeRepository cidadeRepository;
     @Autowired
@@ -25,10 +28,26 @@ public class DBService {
     private MembroRepository membroRepository;
     @Autowired
     private CelulaRepository celulaRepository;
+    @Autowired
+    private PermissaoRepository permissaoRepository;
 
     public void instantiateTestDatabase(){
         // Instancias mocadas
 
+        Permissao roleCadastroCelula = new Permissao(1L, "ROLE_CADASTRAR_CELULA");
+        Permissao roleAtualizaCelula = new Permissao(2L, "ROLE_ATUALIZAR_CELULA");
+        Permissao roleAssociarMembroCelula = new Permissao(3L, "ROLE_ASSOCIAR_MEMBRO_CELULA");
+        Permissao roleDeletaCelula = new Permissao(4L, "ROLE_DELETAR_CELULA");
+        Permissao roleCadastroMembro = new Permissao(5L, "ROLE_CADASTRO_MEMBRO");
+        Permissao rolePesquisarMembro = new Permissao(6L, "ROLE_PESQUISAR_MEMBRO");
+        Permissao roleAtualizarMembro = new Permissao(7L, "ROLE_ATUALIZAR_MEMBRO");
+        Permissao roleDeletarMembro = new Permissao(8L, "ROLE_DELETAR_MEMBRO");
+        Permissao roleAssociarCelulaMembro = new Permissao(9L, "ROLE_ASSOCIAR_CELULA_MEMBRO");
+        Permissao roleInserirCelulaMembro = new Permissao(10L, "ROLE_INSERIR_ESTADO");
+        Permissao roleAssociarCidadeEstado = new Permissao(11L, "ROLE_ASSOCIAR_CIDADE_ESTADO");
+        Permissao rolePesquisaEstado = new Permissao(12L, "ROLE_PESQUISA_ESTADO");
+        Permissao roleDeletarEstado = new Permissao(13L, "ROLE_DELETAR_ESTADO");
+        Permissao rolePesquisarPessoa = new Permissao(14L, "ROLE_PESQUISAR_PESSOA");
         Estado es1 = new Estado("São Paulo");
         Estado es2 = new Estado("Rio de Janeiro");
         Estado es3 = new Estado("Minas Gerais");
@@ -37,9 +56,19 @@ public class DBService {
         Cidade cid2 = new Cidade("Cabo Frio", es2);
         Cidade cid3 = new Cidade("Belo Horizonte", es3);
 
-        Pessoa maria = new Pessoa("Maria", LocalDate.now(), "16523721537");
-        Pessoa joao = new Pessoa("João", LocalDate.now(), "6278647836");
-        Pessoa joaquim = new Pessoa("Joaquim", LocalDate.now(), "768468646");
+        Pessoa maria = new Pessoa("Maria", LocalDate.now(), "16523721537", "maria@gmail.com", be.encode("maria"));
+        Pessoa joao = new Pessoa("João", LocalDate.now(), "6278647836", "joao@gmail.com", be.encode("joao"));
+        Pessoa joaquim = new Pessoa("Joaquim", LocalDate.now(), "768468646", "joaquim@gmail.com", be.encode("joaquim"));
+
+        maria.setPermissoes(Arrays.asList(roleCadastroCelula, roleAtualizaCelula, roleAssociarMembroCelula,
+                roleDeletaCelula, roleCadastroMembro, rolePesquisarMembro, roleAtualizarMembro, roleDeletarMembro,
+                roleAssociarCelulaMembro, roleInserirCelulaMembro, roleAssociarCidadeEstado, rolePesquisaEstado,
+                roleDeletarEstado, rolePesquisarPessoa));
+        joaquim.setPermissoes(Arrays.asList(roleCadastroMembro, rolePesquisarMembro, roleAtualizarMembro, roleDeletarMembro,
+                roleAssociarCelulaMembro, roleInserirCelulaMembro, roleAssociarCidadeEstado, rolePesquisaEstado,
+                roleDeletarEstado, rolePesquisarPessoa));
+        joao.setPermissoes(Arrays.asList(roleCadastroCelula, roleAtualizaCelula, roleAssociarMembroCelula,
+                roleDeletaCelula));
 
         Membro mem1 = new Membro(maria, false, false);
         mem1.getPessoa().getTelefone().addAll(Arrays.asList("976678758"));
@@ -80,6 +109,10 @@ public class DBService {
 
         // cadastro
 
+        permissaoRepository.saveAll(Arrays.asList(roleCadastroCelula, roleAtualizaCelula, roleAssociarMembroCelula,
+                roleDeletaCelula, roleCadastroMembro, rolePesquisarMembro, roleAtualizarMembro, roleDeletarMembro,
+                roleAssociarCelulaMembro, roleInserirCelulaMembro, roleAssociarCidadeEstado, rolePesquisaEstado,
+                roleDeletarEstado, rolePesquisarPessoa));
         estadoRepository.saveAll(Arrays.asList(es1, es2, es3));
         cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
         pessoaRepository.saveAll(Arrays.asList(mem1.getPessoa(), mem2.getPessoa(), mem3.getPessoa()));

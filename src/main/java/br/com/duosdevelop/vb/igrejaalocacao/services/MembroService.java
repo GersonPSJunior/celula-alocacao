@@ -10,6 +10,7 @@ import br.com.duosdevelop.vb.igrejaalocacao.repositories.PessoaRepository;
 import br.com.duosdevelop.vb.igrejaalocacao.services.exceptions.ObjectNotFoundException;
 import br.com.duosdevelop.vb.igrejaalocacao.services.responsibility.CheckFindAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +32,16 @@ public class MembroService {
     @Autowired
     private CelulaRepository celulaRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder be;
+
     public List<Membro> findAll(String ativo, String batizado) {
         return new CheckFindAll(repository).check(ativo, batizado);
     }
 
     @Transactional
     public Membro insert(Membro membro) {
+        membro.getPessoa().setSenha(be.encode(membro.getPessoa().getSenha()));
         Pessoa pessoa = pessoaRepository.findByCpf(membro.getPessoa().getCpf())
                 .orElse(pessoaRepository.save(membro.getPessoa()));
         membro.setPessoa(pessoa);
@@ -53,6 +58,7 @@ public class MembroService {
 
     @Transactional
     public Membro update(Long id, Membro updateMembro){
+        updateMembro.getPessoa().setSenha(be.encode(updateMembro.getPessoa().getSenha()));
         Membro membro = find(id);
         membro.replaceValues(updateMembro);
         return repository.save(membro);

@@ -2,6 +2,7 @@ package br.com.duosdevelop.vb.igrejaalocacao.domain;
 
 import br.com.duosdevelop.vb.igrejaalocacao.domain.base.EntityBase;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +18,18 @@ public class Pessoa extends EntityBase<Pessoa> {
     @Column(unique = true)
     private String cpf;
 
+    @Column(unique = true)
+    private String email;
+
+    @JsonIgnore
+    private String senha;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "pessoa_permissao", joinColumns = @JoinColumn(name = "id_pessoa")
+            , inverseJoinColumns = @JoinColumn(name = "id_permissao"))
+    @JsonIgnore
+    private List<Permissao> permissoes;
+
     @ElementCollection
     @CollectionTable(name = "telefone")
     private Set<String> telefone = new HashSet<>();
@@ -27,10 +40,12 @@ public class Pessoa extends EntityBase<Pessoa> {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, LocalDate nascimento, String cpf) {
+    public Pessoa(String nome, LocalDate nascimento, String cpf, String email, String senha) {
         this.nome = nome;
         this.nascimento = nascimento;
         this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -55,6 +70,30 @@ public class Pessoa extends EntityBase<Pessoa> {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public List<Permissao> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
     }
 
     public Set<String> getTelefone() {
