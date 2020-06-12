@@ -48,6 +48,8 @@ public class DBService {
         Permissao rolePesquisaEstado = new Permissao(12L, "ROLE_PESQUISA_ESTADO");
         Permissao roleDeletarEstado = new Permissao(13L, "ROLE_DELETAR_ESTADO");
         Permissao rolePesquisarPessoa = new Permissao(14L, "ROLE_PESQUISAR_PESSOA");
+        Permissao roleInserirPermissaoPessoa = new Permissao(15L, "ROLE_INSERIR_PERMISSAO_PESSOA");
+        Permissao rolePesquisarPermissao = new Permissao(15L, "ROLE_PESQUISAR_PERMISSAO");
         Estado es1 = new Estado("São Paulo");
         Estado es2 = new Estado("Rio de Janeiro");
         Estado es3 = new Estado("Minas Gerais");
@@ -63,7 +65,7 @@ public class DBService {
         maria.setPermissoes(Arrays.asList(roleCadastroCelula, roleAtualizaCelula, roleAssociarMembroCelula,
                 roleDeletaCelula, roleCadastroMembro, rolePesquisarMembro, roleAtualizarMembro, roleDeletarMembro,
                 roleAssociarCelulaMembro, roleInserirCelulaMembro, roleAssociarCidadeEstado, rolePesquisaEstado,
-                roleDeletarEstado, rolePesquisarPessoa));
+                roleDeletarEstado, rolePesquisarPessoa, roleInserirPermissaoPessoa, rolePesquisarPermissao));
         joaquim.setPermissoes(Arrays.asList(roleCadastroMembro, rolePesquisarMembro, roleAtualizarMembro, roleDeletarMembro,
                 roleAssociarCelulaMembro, roleInserirCelulaMembro, roleAssociarCidadeEstado, rolePesquisaEstado,
                 roleDeletarEstado, rolePesquisarPessoa));
@@ -112,7 +114,7 @@ public class DBService {
         permissaoRepository.saveAll(Arrays.asList(roleCadastroCelula, roleAtualizaCelula, roleAssociarMembroCelula,
                 roleDeletaCelula, roleCadastroMembro, rolePesquisarMembro, roleAtualizarMembro, roleDeletarMembro,
                 roleAssociarCelulaMembro, roleInserirCelulaMembro, roleAssociarCidadeEstado, rolePesquisaEstado,
-                roleDeletarEstado, rolePesquisarPessoa));
+                roleDeletarEstado, rolePesquisarPessoa, roleInserirPermissaoPessoa, rolePesquisarPermissao));
         estadoRepository.saveAll(Arrays.asList(es1, es2, es3));
         cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
         pessoaRepository.saveAll(Arrays.asList(mem1.getPessoa(), mem2.getPessoa(), mem3.getPessoa()));
