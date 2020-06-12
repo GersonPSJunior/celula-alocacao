@@ -11,7 +11,7 @@ import java.util.Objects;
 public abstract class EntityBase<T extends EntityBase<T>> implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     public Long getId() {

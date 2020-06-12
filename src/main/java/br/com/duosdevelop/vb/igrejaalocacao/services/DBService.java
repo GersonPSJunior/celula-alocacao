@@ -49,7 +49,7 @@ public class DBService {
         Permissao roleDeletarEstado = new Permissao(13L, "ROLE_DELETAR_ESTADO");
         Permissao rolePesquisarPessoa = new Permissao(14L, "ROLE_PESQUISAR_PESSOA");
         Permissao roleInserirPermissaoPessoa = new Permissao(15L, "ROLE_INSERIR_PERMISSAO_PESSOA");
-        Permissao rolePesquisarPermissao = new Permissao(15L, "ROLE_PESQUISAR_PERMISSAO");
+        Permissao rolePesquisarPermissao = new Permissao(16L, "ROLE_PESQUISAR_PERMISSAO");
         Estado es1 = new Estado("São Paulo");
         Estado es2 = new Estado("Rio de Janeiro");
         Estado es3 = new Estado("Minas Gerais");
