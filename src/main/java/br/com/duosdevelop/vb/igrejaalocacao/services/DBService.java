@@ -38,7 +38,7 @@ public class DBService {
         Permissao roleAtualizaCelula = new Permissao(2L, "ROLE_ATUALIZAR_CELULA");
         Permissao roleAssociarMembroCelula = new Permissao(3L, "ROLE_ASSOCIAR_MEMBRO_CELULA");
         Permissao roleDeletaCelula = new Permissao(4L, "ROLE_DELETAR_CELULA");
-        Permissao roleCadastroMembro = new Permissao(5L, "ROLE_CADASTRO_MEMBRO");
+        Permissao roleCadastroMembro = new Permissao(5L, "ROLE_CADASTRAR_MEMBRO");
         Permissao rolePesquisarMembro = new Permissao(6L, "ROLE_PESQUISAR_MEMBRO");
         Permissao roleAtualizarMembro = new Permissao(7L, "ROLE_ATUALIZAR_MEMBRO");
         Permissao roleDeletarMembro = new Permissao(8L, "ROLE_DELETAR_MEMBRO");

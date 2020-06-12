@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,7 @@ public class CelulaResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CELULA') and #oauth2.hasScope('write')")
     public ResponseEntity<Celula> insert(@Valid @RequestBody NewCelulaDTO newCelulaDTO, HttpServletResponse response) throws Exception {
         Celula celula = service.insert(newCelulaDTO.toDomain());
         publisher.publishEvent(new CreateResourceEvent(this, response, celula.getId()));
@@ -47,6 +49,7 @@ public class CelulaResource {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('ROLE_ATUALIZAR_CELULA') and #oauth2.hasScope('write')")
     public ResponseEntity<Void> update(@Valid @RequestBody NewCelulaDTO newCelulaDTO,
                                        @PathVariable Long id) throws Exception {
         service.update(id, newCelulaDTO.toDomain());
@@ -54,6 +57,7 @@ public class CelulaResource {
     }
 
     @RequestMapping(path = "/{id}/membro", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('ROLE_ASSOCIAR_MEMBRO_CELULA') and #oauth2.hasScope('write')")
     public ResponseEntity<Void> insertMembro(@RequestBody List<Long> idMembros,
                                              @PathVariable Long id){
         service.insertMembro(id, idMembros);
@@ -61,6 +65,7 @@ public class CelulaResource {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAuthority('ROLE_DELETAR_CELULA') and #oauth2.hasScope('write')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();

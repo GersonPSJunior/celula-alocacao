@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ public class MembroResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_MEMBRO') and #oauth2.hasScope('read')")
     public ResponseEntity<List<Membro>> findAll(
             @RequestParam(name = "ativo", defaultValue = "") String ativo,
             @RequestParam(name = "batizado", defaultValue = "") String batizado){
@@ -39,6 +41,7 @@ public class MembroResource {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_MEMBRO') and #oauth2.hasScope('read')")
     public ResponseEntity<MembroOutputDTO> find(@PathVariable Long id){
         Membro membro = service.find(id);
         return ResponseEntity.ok().body(new MembroOutputDTO(membro.getPessoa(),
@@ -47,6 +50,7 @@ public class MembroResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_MEMBRO') and #oauth2.hasScope('write')")
     public ResponseEntity<Membro> insert(@Valid @RequestBody NewMembroDTO newMembroDTO, HttpServletResponse response) throws Exception {
         Membro membro = service.insert(newMembroDTO.toDomain());
         publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
@@ -54,6 +58,7 @@ public class MembroResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ATUALIZAR_MEMBRO') and #oauth2.hasScope('write')")
     public ResponseEntity<Void> update(@Valid @RequestBody UpdateMembroDTO updateMembroDTO, @PathVariable Long id, HttpServletResponse response) throws Exception {
         Membro membro = service.update(id, updateMembroDTO.toDomain());
         publisher.publishEvent(new CreateResourceEvent(this, response, membro.getId()));
@@ -61,12 +66,14 @@ public class MembroResource {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DELETAR_MEMBRO') and #oauth2.hasScope('write')")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}/celula")
+    @PreAuthorize("hasAuthority('ROLE_ASSOCIAR_CELULA_MEMBRO') and #oauth2.hasScope('write')")
     public ResponseEntity<Void> insertCelula(@PathVariable Long id,
                                                         @RequestBody Long idCelula,
                                                         HttpServletResponse response){

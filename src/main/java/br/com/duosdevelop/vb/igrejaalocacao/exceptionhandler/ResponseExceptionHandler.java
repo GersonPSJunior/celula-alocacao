@@ -25,12 +25,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<FieldMessage> parseData(Exception e, HttpServletRequest request){
-        FieldMessage error = new FieldMessage(e.getMessage(), e.getCause().toString());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
         StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
