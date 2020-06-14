@@ -11,6 +11,7 @@
 	<groupId>br.com.duosdevelop.vb</groupId>
 	<artifactId>igreja-alocacao</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>igreja-alocacao</name>
 	<description>Demo project for Spring Boot</description>
 
