@@ -14,6 +14,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -24,13 +27,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private ApplicationYAMLConfig applicationYAMLConfig;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("mobile")
-                .secret("$2a$10$ZlYTdJLqFePDfMmAexk/Ou1aQjeY5bKnGGlCBWN4L1pW5pEkoe4fi")
-                .scopes("read", "write")
-                .authorizedGrantTypes("password", "refresh_token")
+                .withClient(applicationYAMLConfig.getClientId())
+                .secret(applicationYAMLConfig.getClientSecret())
+                .scopes(applicationYAMLConfig.getScope())
+                .authorizedGrantTypes(applicationYAMLConfig.getAuthorizationGrantType())
                 .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600 * 24);
     }

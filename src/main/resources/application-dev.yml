@@ -1,0 +1,16 @@
+
+spring:
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3305/alocacao_celula?useSSL=false&useTimezone=true&serverTimezone=UTC
+    username: root
+    password: alocacao
+
+  jackson:
+    deserialization.fail-on-unknown-properties: true
