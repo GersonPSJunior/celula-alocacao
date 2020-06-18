@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 public class NewCelulaDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public NewCelulaDTO() {
-    }
-
     @NotNull
     @NotBlank
     @Size(min = 3, max = 75)

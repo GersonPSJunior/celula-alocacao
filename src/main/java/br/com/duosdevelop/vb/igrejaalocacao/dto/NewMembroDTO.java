@@ -57,9 +57,6 @@ public class NewMembroDTO implements Serializable {
     @NotNull
     private EnderecoDTO endereco;
 
-    public NewMembroDTO() {
-    }
-
     public String getNome() {
         return nome;
     }

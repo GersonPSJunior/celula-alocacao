@@ -12,9 +12,6 @@ import java.io.Serializable;
 public class EnderecoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public EnderecoDTO() {
-    }
-
     @NotNull
     private Integer id;
     @NotNull

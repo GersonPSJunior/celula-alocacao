@@ -56,9 +56,6 @@ public class UpdateMembroDTO implements Serializable {
     @NotNull
     private EnderecoDTO endereco;
 
-    public UpdateMembroDTO() {
-    }
-
     public String getNome() {
         return nome;
     }
