@@ -23,7 +23,7 @@ public class CidadeService {
     }
 
     public Cidade findId(Long id){
-        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Obaject not found! id: "+
+        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Object not found! id: "+
                 id +", Type: "+ Cidade.class.getName()));
     }
 

@@ -19,19 +19,6 @@ public class DateUtil {
 
     public static final DateTimeFormatter MEDIUM_DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
 
-    public static Date toDate(String date) throws Exception {
-        if (!date.matches("\\d{2}/\\d{2}/\\d{4}"))
-            throw new DateException(messageSource.getMessage("message.format.date", null, LocaleContextHolder.getLocale()),
-                    new ParseException("Data com formato "+date, 0));
-
-        if (!date.matches("[0-3]?\\d/[0-1]?\\d/[12]\\d{3}"))
-            throw new DateException(messageSource.getMessage("message.value.date", null, LocaleContextHolder.getLocale()),
-                    new Exception("Data com valores incorretos "+date));
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.parse(date);
-    }
-
     public static Date toTime(String time) throws Exception {
         if (!time.matches("\\d{2}:\\d{2}"))
             throw new DateException(messageSource.getMessage("message.format.hour", null, LocaleContextHolder.getLocale()),
