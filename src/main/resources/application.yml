@@ -1,7 +1,7 @@
 
 spring:
   profiles:
-    active: test
+    active: prod
 
 security:
   clientId: m0b1l3@

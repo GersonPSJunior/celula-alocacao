@@ -14,22 +14,26 @@ import java.util.Date;
 @Service
 public class DBService {
 
+    private final BCryptPasswordEncoder be;
+    private final CidadeRepository cidadeRepository;
+    private final PessoaRepository pessoaRepository;
+    private final EnderecoRepository enderecoRepository;
+    private final EstadoRepository estadoRepository;
+    private final MembroRepository membroRepository;
+    private final CelulaRepository celulaRepository;
+    private final PermissaoRepository permissaoRepository;
+
     @Autowired
-    private BCryptPasswordEncoder be;
-    @Autowired
-    private CidadeRepository cidadeRepository;
-    @Autowired
-    private PessoaRepository pessoaRepository;
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-    @Autowired
-    private EstadoRepository estadoRepository;
-    @Autowired
-    private MembroRepository membroRepository;
-    @Autowired
-    private CelulaRepository celulaRepository;
-    @Autowired
-    private PermissaoRepository permissaoRepository;
+    public DBService(BCryptPasswordEncoder be, CidadeRepository cidadeRepository, PessoaRepository pessoaRepository, EnderecoRepository enderecoRepository, EstadoRepository estadoRepository, MembroRepository membroRepository, CelulaRepository celulaRepository, PermissaoRepository permissaoRepository) {
+        this.be = be;
+        this.cidadeRepository = cidadeRepository;
+        this.pessoaRepository = pessoaRepository;
+        this.enderecoRepository = enderecoRepository;
+        this.estadoRepository = estadoRepository;
+        this.membroRepository = membroRepository;
+        this.celulaRepository = celulaRepository;
+        this.permissaoRepository = permissaoRepository;
+    }
 
     public void instantiateTestDatabase(){
         // Instancias mocadas
