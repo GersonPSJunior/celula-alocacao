@@ -23,11 +23,16 @@ pipeline {
             }
         }
         stage('Quality Gate') {
-            steps{
+            steps {
                 sleep(10)
                 timeout(time: 1, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
+            }
+        }
+        stage('Deploy Backend') {
+            steps {
+                bat 'docker-compose -f stack-prod.yml up -d'
             }
         }
     }
