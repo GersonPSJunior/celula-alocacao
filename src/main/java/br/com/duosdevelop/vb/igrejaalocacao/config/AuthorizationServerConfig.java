@@ -30,10 +30,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient(applicationYAMLConfig.getClientId())
-                .secret(applicationYAMLConfig.getClientSecret())
-                .scopes(applicationYAMLConfig.getScope())
-                .authorizedGrantTypes(applicationYAMLConfig.getAuthorizationGrantType())
+                .withClient(applicationYAMLConfig.getSecurity().getClientId())
+                .secret(applicationYAMLConfig.getSecurity().getClientSecret())
+                .scopes(applicationYAMLConfig.getSecurity().getScope())
+                .authorizedGrantTypes(applicationYAMLConfig.getSecurity().getAuthorizationGrantType())
                 .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600 * 24);
     }

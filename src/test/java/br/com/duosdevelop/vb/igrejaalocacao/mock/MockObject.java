@@ -12,7 +12,7 @@ import java.util.HashSet;
 public class MockObject {
 
     public static Pessoa getPessoa(){
-        Pessoa pessoa = new Pessoa("teste mock", LocalDate.now(), "122.122.122-12", "teste@teste.com", "123");
+        Pessoa pessoa = new Pessoa("teste mock", "12/12/2010", "122.122.122-12", "teste@teste.com", "123");
         pessoa.setEnderecos(Arrays.asList(getEndereco()));
         pessoa.setTelefone(new HashSet<>(Arrays.asList("123234314","213214132")));
         return pessoa;

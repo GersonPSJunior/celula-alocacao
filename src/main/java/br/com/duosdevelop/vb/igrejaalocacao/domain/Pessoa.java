@@ -12,8 +12,7 @@ import java.util.*;
 public class Pessoa extends EntityBase<Pessoa> {
     private String nome;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate nascimento;
+    private String nascimento;
 
     @Column(unique = true)
     private String cpf;
@@ -40,7 +39,7 @@ public class Pessoa extends EntityBase<Pessoa> {
     public Pessoa() {
     }
 
-    public Pessoa(String nome, LocalDate nascimento, String cpf, String email, String senha) {
+    public Pessoa(String nome, String nascimento, String cpf, String email, String senha) {
         this.nome = nome;
         this.nascimento = nascimento;
         this.cpf = cpf;
@@ -56,11 +55,11 @@ public class Pessoa extends EntityBase<Pessoa> {
         this.nome = nome;
     }
 
-    public LocalDate getNascimento() {
+    public String getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(LocalDate nascimento) {
+    public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
     }
 

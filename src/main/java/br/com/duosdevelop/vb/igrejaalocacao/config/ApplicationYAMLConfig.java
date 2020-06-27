@@ -6,43 +6,64 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "security")
+@ConfigurationProperties(prefix = "spring")
 public class ApplicationYAMLConfig {
 
-    private String clientId;
-    private String clientSecret;
-    private String[] scope;
-    private String[] authorizationGrantType;
+    private Security security = new Security();
+    private String dbStrategy;
 
-    public String getClientId() {
-        return clientId;
+    public String getDbStrategy() {
+        return dbStrategy;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setDbStrategy(String dbStrategy) {
+        this.dbStrategy = dbStrategy;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
+    public Security getSecurity() {
+        return security;
     }
 
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
+    public void setSecurity(Security security) {
+        this.security = security;
     }
 
-    public String[] getScope() {
-        return scope;
-    }
+    public static class Security{
+        private String clientId;
+        private String clientSecret;
+        private String[] scope;
+        private String[] authorizationGrantType;
 
-    public void setScope(String[] scope) {
-        this.scope = scope;
-    }
+        public String getClientId() {
+            return clientId;
+        }
 
-    public String[] getAuthorizationGrantType() {
-        return authorizationGrantType;
-    }
+        public void setClientId(String clientId) {
+            this.clientId = clientId;
+        }
 
-    public void setAuthorizationGrantType(String[] authorizationGrantType) {
-        this.authorizationGrantType = authorizationGrantType;
+        public String getClientSecret() {
+            return clientSecret;
+        }
+
+        public void setClientSecret(String clientSecret) {
+            this.clientSecret = clientSecret;
+        }
+
+        public String[] getScope() {
+            return scope;
+        }
+
+        public void setScope(String[] scope) {
+            this.scope = scope;
+        }
+
+        public String[] getAuthorizationGrantType() {
+            return authorizationGrantType;
+        }
+
+        public void setAuthorizationGrantType(String[] authorizationGrantType) {
+            this.authorizationGrantType = authorizationGrantType;
+        }
     }
 }

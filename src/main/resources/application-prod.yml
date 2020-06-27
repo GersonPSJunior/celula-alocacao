@@ -2,14 +2,14 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate.format_sql: true
   datasource:
-    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?useSSL=false&useTimezone=true&serverTimezone=UTC
-    username: ${DATABASE_USER}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:${DATABASE_PORT:3305}/${DATABASE_NAME:alocacao_celula}?useSSL=false&useTimezone=true&serverTimezone=UTC
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:alocacao}
 
   jackson:
     deserialization.fail-on-unknown-properties: true

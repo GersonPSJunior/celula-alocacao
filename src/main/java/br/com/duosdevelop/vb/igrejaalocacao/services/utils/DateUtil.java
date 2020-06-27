@@ -17,7 +17,7 @@ public class DateUtil {
     @Autowired
     private static MessageSource messageSource;
 
-    public static final DateTimeFormatter MEDIUM_DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+    public static final DateTimeFormatter MEDIUM_DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
 
     public static Date toTime(String time) throws Exception {
         if (!time.matches("\\d{2}:\\d{2}"))

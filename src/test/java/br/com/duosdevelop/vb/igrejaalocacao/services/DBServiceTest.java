@@ -39,7 +39,7 @@ public class DBServiceTest {
     @Test
     public void instantiateTestDatabase() {
         service.instantiateTestDatabase();
-        verify(be, times(3)).encode(anyString());
+        verify(be).encode(anyString());
         verify(cidadeRepository).saveAll(any());
         verify(pessoaRepository).saveAll(any());
         verify(enderecoRepository).saveAll(any());

@@ -3,12 +3,13 @@ spring:
   profiles:
     active: prod
 
-security:
-  clientId: m0b1l3@
-  clientSecret: $2a$10$ZlYTdJLqFePDfMmAexk/Ou1aQjeY5bKnGGlCBWN4L1pW5pEkoe4fi
-  scope:
-    - read
-    - write
-  authorizationGrantType:
-    - password
-    - refresh_token
+  dbStrategy: create
+  security:
+    clientId: m0b1l3@
+    clientSecret: $2a$10$ZlYTdJLqFePDfMmAexk/Ou1aQjeY5bKnGGlCBWN4L1pW5pEkoe4fi
+    scope:
+      - read
+      - write
+    authorizationGrantType:
+      - password
+      - refresh_token
