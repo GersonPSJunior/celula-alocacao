@@ -9,17 +9,17 @@ services:
     networks:
       - sonarnet
     environment:
-      - sonar.jdbc.url=jdbc:postgresql://pg-sonar:5432/sonar
+      - sonar.jdbc.url=jdbc:postgresql://db-sonar:5432/sonar
     depends_on:
-      - pg-sonar
+      - db-sonar
     volumes:
       - sonarqube_conf:/opt/sonarqube/conf
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
 
-  pg-sonar:
-    container_name: pg-sonar
+  db-sonar:
+    container_name: db-sonar
     image: postgres:9.6
     networks:
       - sonarnet
