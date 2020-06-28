@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  db:
+    container_name: alocacao-celula-db
+    image: mysql:5.7
+    networks:
+      - network-back
+    environment:
+      MYSQL_DATABASE: alocacao_celula
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: alocacao
+  celula-alocacao:
+    container_name: backend-prod
+    image: celula_alocacao_prod:build_${BUILD_NUMBER}
+    build:
+      context: .
+      args:
+        - JAR_FILE=target/celula-alocacao.jar
+    ports:
+      - 8081:8080
+    networks:
+      - network-back
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=alocacao
+      - DATABASE_NAME=alocacao_celula
+      - DATABASE_PORT=3306
+    depends_on:
+      - db
+networks:
+  network-back:
