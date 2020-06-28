@@ -37,6 +37,7 @@ pipeline {
         }
         stage('API Test') {
             steps {
+                sleep(10)
                 dir('api-tes'){
                     git url: 'https://github.com/GersonPSJunior/api-test-celula.git'
                     bat 'mvn test'
