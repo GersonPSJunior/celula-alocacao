@@ -30,9 +30,9 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Backend') {
+        stage('Deploy Dev') {
             steps {
-                bat 'docker-compose up -d'
+                bat 'docker-compose -f docker-compose-dev.yml up -d'
             }
         }
         stage('API Test') {

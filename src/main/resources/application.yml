@@ -1,9 +1,9 @@
 
 spring:
   profiles:
-    active: prod
+    active: ${PROFILES_ACTIVE:test}
 
-  dbStrategy: create
+  dbStrategy: ${STRATEGY_DB:create}
   security:
     clientId: m0b1l3@
     clientSecret: $2a$10$ZlYTdJLqFePDfMmAexk/Ou1aQjeY5bKnGGlCBWN4L1pW5pEkoe4fi
